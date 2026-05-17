@@ -22,55 +22,83 @@ const heroObjects = [
     src: "/objects/spiderman-sticker.png",
     alt: "Spiderman sticker",
     className: "obj-spiderman float-1 hero-obj-tablet-show",
-    style: { top: "28%", left: "5%", width: 72, "--rot": "-10deg" },
+    style: { top: "28%", left: "5vw", "--base-w": "clamp(54px, 5vw, 72px)", "--rot": "-10deg" },
   },
   {
     src: "/objects/batman-sticker.png",
     alt: "Batman sticker",
     className: "obj-batman float-2",
-    style: { top: "13%", left: "calc(50% + clamp(205px, 14vw, 290px))", width: 58, "--rot": "-8deg" },
+    style: { top: "13%", left: "calc(50% + 20.5vw)", "--base-w": "clamp(38px, 3.2vw, 58px)", "--rot": "-8deg" },
   },
   {
     src: "/objects/boxinggloves-sticker.png",
     alt: "Boxing gloves sticker",
     className: "obj-boxing float-3 hero-obj-tablet-show",
-    style: { top: "11%", right: "4%", width: 124, "--rot": "12deg" },
+    style: { top: "11%", right: "4vw", "--base-w": "clamp(76px, 7vw, 124px)", "--rot": "12deg" },
   },
   {
     src: "/objects/dumbell-sticker.png",
     alt: "Dumbbell sticker",
     className: "obj-dumbell float-4 hero-obj-tablet-hide",
-    style: { top: "10%", left: "7%", width: 118, "--rot": "-10deg" },
+    style: { top: "10%", left: "7vw", "--base-w": "clamp(70px, 6.4vw, 118px)", "--rot": "-10deg" },
   },
   {
     src: "/objects/music-sticker.png",
     alt: "Music sticker",
     className: "obj-music float-1 hero-obj-tablet-show",
-    style: { top: "10%", left: "20%", width: 78, "--rot": "8deg" },
+    style: { top: "10%", left: "20vw", "--base-w": "clamp(52px, 4.7vw, 78px)", "--rot": "8deg" },
+  },
+  {
+    src: "/objects/guitar-sticker.png",
+    alt: "Guitar sticker",
+    className: "obj-guitar float-4 hero-obj-tablet-hide",
+    // Music cluster: placed top-right with vertical separation from boxing gloves.
+    style: { top: "6%", right: "16vw", "--base-w": "clamp(48px, 4.6vw, 76px)", "--rot": "9deg" },
   },
   {
     src: "/objects/vinlandsaga-sticker.png",
     alt: "Vinland Saga sticker",
     className: "obj-vinland float-3 hero-obj-tablet-hide",
-    style: { bottom: "8%", right: "16%", width: 118, "--rot": "7deg" },
+    style: { bottom: "8%", right: "16vw", "--base-w": "clamp(78px, 6.6vw, 118px)", "--rot": "7deg" },
   },
   {
     src: "/objects/whiplash-sticker.png",
     alt: "Whiplash sticker",
     className: "obj-whiplash float-4 hero-obj-tablet-hide",
-    style: { bottom: "10%", left: "6%", width: 122, "--rot": "-18deg" },
+    style: { bottom: "10%", left: "6vw", "--base-w": "clamp(82px, 6.8vw, 122px)", "--rot": "-18deg" },
+  },
+  {
+    src: "/objects/cinema-sticker.png",
+    alt: "Cinema ticket sticker",
+    className: "obj-cinema float-2 hero-obj-tablet-hide",
+    // Cinephile zone: adjacent to Whiplash, offset upward to avoid contact.
+    style: { bottom: "31%", left: "3vw", "--base-w": "clamp(72px, 7vw, 128px)", "--rot": "-9deg" },
   },
   {
     src: "/objects/feymanbook-sticker.jpg",
     alt: "Feynman book sticker",
     className: "obj-feynman float-2 hero-obj-tablet-hide",
-    style: { top: "62%", right: "6%", width: 96, "--rot": "2deg" },
+    style: { top: "62%", right: "6vw", "--base-w": "clamp(66px, 5.4vw, 96px)", "--rot": "2deg" },
+  },
+  {
+    src: "/objects/radio-sticker.png",
+    alt: "Radio sticker",
+    className: "obj-radio float-1 hero-obj-tablet-hide",
+    // Cultural shelf: bottom-right, kept below Feynman with a clear gap.
+    style: { bottom: "3%", right: "5vw", "--base-w": "clamp(84px, 7.4vw, 136px)", "--rot": "-6deg" },
   },
   {
     src: "/objects/dollar-bill-sticker.png",
     alt: "Dollar bill sticker",
     className: "obj-dollar float-1 hero-obj-tablet-hide",
-    style: { top: "30%", right: "17%", width: 144, "--rot": "-5deg" },
+    style: { top: "30%", right: "17vw", "--base-w": "clamp(92px, 8vw, 144px)", "--rot": "-5deg" },
+  },
+  {
+    src: "/objects/letscook-sticker.png",
+    alt: "Let's Cook RV sticker",
+    className: "obj-letscook float-3 hero-obj-tablet-hide",
+    // Mid-right gap: between Vinland Saga and the controls, outside the protected center column.
+    style: { bottom: "18%", right: "28vw", "--base-w": "clamp(72px, 6.2vw, 112px)", "--rot": "5deg" },
   },
 ];
 
@@ -327,7 +355,7 @@ function FlipCard({ project }: { project: (typeof alsoBuilt)[number] }) {
 
 export default function Portfolio() {
   const [pastHero, setPastHero] = useState(false);
-  const [heroMode, setHeroMode] = useState<"chaos" | "cleaned" | "minimal">("chaos");
+  const [heroMode, setHeroMode] = useState<"chaos" | "cleaned" | "minimal">("minimal");
   const [reveal, setReveal] = useState<{ x: number; y: number; active: boolean } | null>(null);
 
   useEffect(() => {
@@ -335,6 +363,19 @@ export default function Portfolio() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const mobileQuery = window.matchMedia("(max-width: 768px)");
+    const enforceMobileMinimal = () => {
+      if (mobileQuery.matches) {
+        setHeroMode("minimal");
+      }
+    };
+
+    enforceMobileMinimal();
+    mobileQuery.addEventListener("change", enforceMobileMinimal);
+    return () => mobileQuery.removeEventListener("change", enforceMobileMinimal);
   }, []);
 
   const triggerReveal = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -382,7 +423,7 @@ export default function Portfolio() {
 
             <div
               className="obj-container hero-obj terminal-chip float-3 hero-obj-tablet-hide"
-              style={{ top: "47%", right: "18%", width: 182, "--rot": "2deg" } as CSSVars}
+              style={{ top: "47%", right: "18vw", "--base-w": "clamp(142px, 10vw, 182px)", "--rot": "2deg" } as CSSVars}
             >
               <div className="chip-title">
                 <Terminal size={14} />
@@ -395,7 +436,7 @@ export default function Portfolio() {
 
             <div
               className="obj-container hero-obj luffy-card float-2 hero-obj-tablet-hide"
-              style={{ top: "43%", left: "13%", width: 78, "--rot": "-3deg" } as CSSVars}
+              style={{ top: "43%", left: "13vw", "--base-w": "clamp(58px, 4.5vw, 78px)", "--rot": "-3deg" } as CSSVars}
             >
               <div className="thought-bubble">Let&apos;s ship</div>
               <Image
@@ -410,7 +451,7 @@ export default function Portfolio() {
 
             <div
               className="obj-container hero-obj award-chip latest-win float-2 hero-obj-tablet-show"
-              style={{ bottom: "3%", left: "23%", width: 258, "--rot": "-2deg" } as CSSVars}
+              style={{ bottom: "3%", left: "23vw", "--base-w": "clamp(204px, 15vw, 258px)", "--rot": "-2deg" } as CSSVars}
             >
               <div>
                 <Award size={18} />

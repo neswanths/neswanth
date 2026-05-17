@@ -261,6 +261,7 @@ main {
 .obj-container {
   position: absolute;
   z-index: 8;
+  width: var(--base-w);
   opacity: 1;
   filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.14));
   transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -306,85 +307,102 @@ main {
 .hero-cleaned .obj-container:not(.obj-batman) {
   right: auto !important;
   bottom: auto !important;
+}
+
+.hero-cleaned .obj-container {
+  width: calc(var(--base-w) * 0.68) !important;
   opacity: 0.95;
-  --tab-scl: 0.78;
+  --tab-scl: 1;
 }
 
 .hero-cleaned .obj-batman {
   top: 13% !important;
   right: auto !important;
-  left: calc(50% + clamp(205px, 14vw, 290px)) !important;
+  left: calc(50% + 20.5vw) !important;
 }
 
 .hero-cleaned .obj-dumbell {
   top: 11% !important;
-  left: 5% !important;
-  width: 74px !important;
+  left: 5vw !important;
 }
 
 .hero-cleaned .obj-music {
   top: 15% !important;
-  left: 17% !important;
-  width: 58px !important;
+  left: 17vw !important;
+}
+
+.hero-cleaned .obj-guitar {
+  top: 8% !important;
+  left: 25vw !important;
 }
 
 .hero-cleaned .obj-boxing {
   top: 26% !important;
-  left: 23% !important;
-  width: 74px !important;
+  left: 23vw !important;
 }
 
 .hero-cleaned .obj-dollar {
   top: 31% !important;
-  left: 8% !important;
-  width: 98px !important;
+  left: 8vw !important;
 }
 
 .hero-cleaned .obj-spiderman {
   top: 40% !important;
-  left: 4% !important;
-  width: 86px !important;
+  left: 4vw !important;
 }
 
 .hero-cleaned .terminal-chip {
   top: 42% !important;
-  left: 17% !important;
-  width: 148px !important;
+  left: 17vw !important;
 }
 
 .hero-cleaned .luffy-card {
   top: 62% !important;
-  left: 13% !important;
-  width: 68px !important;
+  left: 13vw !important;
 }
 
 .hero-cleaned .obj-vinland {
   top: 67% !important;
-  left: 18% !important;
-  width: 76px !important;
+  left: 18vw !important;
+}
+
+.hero-cleaned .obj-letscook {
+  top: 56% !important;
+  left: 32vw !important;
 }
 
 .hero-cleaned .obj-whiplash {
   top: 73% !important;
-  left: 5% !important;
-  width: 90px !important;
+  left: 5vw !important;
+}
+
+.hero-cleaned .obj-cinema {
+  top: 79% !important;
+  left: 12vw !important;
 }
 
 .hero-cleaned .obj-feynman {
   top: 58% !important;
-  left: 26% !important;
-  width: 64px !important;
+  left: 26vw !important;
+}
+
+.hero-cleaned .obj-radio {
+  top: 72% !important;
+  left: 30vw !important;
 }
 
 .hero-cleaned .latest-win {
-  top: 80% !important;
-  left: 16% !important;
-  width: 198px !important;
+  top: 86% !important;
+  left: 18vw !important;
 }
 
 .hero-minimal .hero-objects {
   opacity: 0;
   pointer-events: none;
+}
+
+.hero-minimal .hero-obj {
+  display: none !important;
 }
 
 .hero-minimal .hero-center {
@@ -1529,7 +1547,7 @@ main {
     margin-top: 44px;
   }
 
-  .hero-obj-tablet-hide {
+  .hero-obj-tablet-hide:not(.terminal-chip) {
     display: none !important;
   }
 
@@ -1580,6 +1598,11 @@ main {
     min-height: 680px;
   }
 
+  .hero-objects,
+  .hero-controls {
+    display: none !important;
+  }
+
   .hero-title {
     font-size: clamp(54px, 17vw, 84px);
   }
@@ -1620,32 +1643,29 @@ main {
   }
 
   .hero-mobile-hide,
-  .hero-obj-tablet-hide {
+  .hero-obj-tablet-hide:not(.terminal-chip) {
     display: none !important;
   }
 
   .obj-spiderman {
     top: 15% !important;
     left: -2% !important;
-    width: 92px !important;
   }
 
   .obj-boxing {
     top: 17% !important;
     right: -4% !important;
-    width: 86px !important;
   }
 
   .obj-music {
     top: 9% !important;
     left: 43% !important;
-    width: 60px !important;
   }
 
   .award-chip {
     bottom: 16% !important;
     left: 50% !important;
-    width: 230px !important;
+    width: clamp(204px, 62vw, 230px) !important;
     transform: translateX(-50%) rotate(var(--rot)) scale(0.82) !important;
   }
 
