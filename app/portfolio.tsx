@@ -107,40 +107,37 @@ const latestWin = "2nd Place - PRAJWALAN 2K26";
 const featuredProjects = [
   {
     name: "D-Cloud",
-    address: "github.com/neswanths/d-cloud",
-    href: "https://github.com/neswanths/d-cloud",
+    address: "https://d-cloud-public.vercel.app",
+    href: "https://d-cloud-public.vercel.app",
     description:
       "Decentralized cloud storage on Holochain with Ed25519 identity, AES-256-GCM encryption, and 3-of-5 erasure coding.",
     preview: "dcloud",
   },
   {
+    name: "Vigil",
+    address: "https://vigil-amin.vercel.app",
+    href: "https://vigil-amin.vercel.app",
+    description:
+      "Agentic Market Intelligence Network with five specialized BDI agents, live state propagation, FastAPI, and React/Vite.",
+    preview: "vigil",
+  },
+  {
+    name: "Blinky",
+    address: "https://blinky-nst.vercel.app",
+    href: "https://blinky-nst.vercel.app",
+    description:
+      "Minimalist bookmark manager with Chrome extension, FastAPI backend, OAuth2, JWT sessions, and persistent PostgreSQL sync.",
+    preview: "blinky",
+  },
+  {
     name: "SentinelMesh",
-    address: "github.com/neswanths/sentinel-mesh",
+    address: "https://github.com/neswanths/sentinel-mesh",
     href: "https://github.com/neswanths/sentinel-mesh",
     description:
       "Bio-inspired distributed intrusion detection using Artificial Immune Systems theory, gossip consensus, and a 20-node mesh.",
     preview: "sentinel",
   },
-  {
-    name: "Vigil",
-    address: "github.com/neswanths/vigil",
-    href: "https://github.com/neswanths/vigil",
-    description:
-      "Agentic Market Intelligence Network with five specialized BDI agents, live state propagation, FastAPI, and React/Vite.",
-    preview: "vigil",
-  },
 ] as const;
-
-const alsoBuilt = [
-  {
-    name: "Blinky",
-    address: "chrome-extension://blinky",
-    href: "https://github.com/neswanths",
-    description:
-      "Minimalist bookmark manager with a Chrome extension, FastAPI backend, OAuth2, JWT sessions, and persistent PostgreSQL sync.",
-    stack: ["Chrome Extension", "FastAPI", "React", "PostgreSQL", "OAuth2"],
-  },
-];
 
 function Marquee({
   items,
@@ -165,24 +162,44 @@ function Marquee({
   );
 }
 
-function BrowserFrame({
-  address,
-  children,
-}: {
-  address: string;
-  children: React.ReactNode;
-}) {
+function IframePreview({ project }: { project: (typeof featuredProjects)[number] }) {
+  const [status, setStatus] = useState<"loading" | "loaded" | "error">("loading");
+  const hasLiveIframe = project.name !== "SentinelMesh";
+
+  useEffect(() => {
+    if (!hasLiveIframe) return;
+    const timer = setTimeout(() => {
+      setStatus((prev) => (prev === "loading" ? "error" : prev));
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [hasLiveIframe]);
+
   return (
-    <div className="browser-frame">
-      <div className="browser-top">
-        <div className="traffic-lights" aria-hidden="true">
-          <span />
-          <span />
-          <span />
+    <div className="fp-aspect" style={{ position: "relative", width: "100%", aspectRatio: "16/10", borderRadius: "8px", overflow: "hidden", background: "linear-gradient(135deg, #1a1814 0%, #2d2922 100%)", boxShadow: "0 8px 32px rgba(0,0,0,0.15)", display: "flex", flexDirection: "column" }}>
+      <div style={{ height: "32px", background: "#2a2a2a", display: "flex", alignItems: "center", padding: "0 12px", gap: "6px", flexShrink: 0 }}>
+        <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#ff5f57" }} />
+        <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#febc2e" }} />
+        <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#28c840" }} />
+        <div style={{ flex: 1, height: "18px", background: "#3a3a3a", borderRadius: "4px", margin: "0 8px", display: "flex", alignItems: "center", paddingLeft: "8px", fontSize: "10px", color: "#888", fontFamily: "monospace" }}>
+          {project.address}
         </div>
-        <div className="address-bar">{address}</div>
       </div>
-      <div className="browser-body">{children}</div>
+      <div className="iframe-content" style={{ flex: 1, position: "relative", overflow: "hidden" }}>
+        {hasLiveIframe && status !== "error" && (
+          <iframe
+            src={project.href}
+            style={{ position: "absolute", top: 0, left: 0, width: "200%", height: "200%", border: "none", transform: "scale(0.5)", transformOrigin: "top left", pointerEvents: "none" }}
+            loading="lazy"
+            title={project.name}
+            onLoad={() => setStatus("loaded")}
+            onError={() => setStatus("error")}
+          />
+        )}
+        {(!hasLiveIframe || status === "error") && (
+          <ProjectPreview type={project.preview} />
+        )}
+        <a href={project.href} target="_blank" rel="noopener noreferrer" style={{ position: "absolute", inset: 0, zIndex: 2, cursor: "pointer" }} />
+      </div>
     </div>
   );
 }
@@ -244,6 +261,21 @@ function ProjectPreview({ type }: { type: (typeof featuredProjects)[number]["pre
       </div>
     );
   }
+  if (type === "blinky") {
+    return (
+      <div className="preview preview-blinky">
+        <div className="bookmark-list">
+          <span />
+          <span />
+          <span />
+        </div>
+        <div className="bookmark-card">
+          <strong>Blinky</strong>
+          <p>save less, find faster</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="preview preview-vigil">
@@ -296,62 +328,21 @@ function FeaturedProject({
   return (
     <article className={`fp-row ${reversed ? "fp-reverse" : ""}`}>
       <div className="fp-image">
-        <div className="fp-aspect">
-          <BrowserFrame address={project.address}>
-            <ProjectPreview type={project.preview} />
-          </BrowserFrame>
-        </div>
+        <IframePreview project={project} />
       </div>
       <div className="fp-text">
-        <LiveBadge />
+        <div><LiveBadge /></div>
         <h3>{project.name}</h3>
         <p>{project.description}</p>
         <a href={project.href} target="_blank" rel="noreferrer">
-          View project <ArrowRight size={16} strokeWidth={1.7} />
+          View project <ArrowRight size={14} strokeWidth={1.5} />
         </a>
       </div>
     </article>
   );
 }
 
-function FlipCard({ project }: { project: (typeof alsoBuilt)[number] }) {
-  return (
-    <article className="flip-card">
-      <div className="flip-card-inner">
-        <div className="flip-face flip-front">
-          <BrowserFrame address={project.address}>
-            <div className="preview preview-blinky">
-              <div className="bookmark-list">
-                <span />
-                <span />
-                <span />
-              </div>
-              <div className="bookmark-card">
-                <strong>Blinky</strong>
-                <p>save less, find faster</p>
-              </div>
-            </div>
-          </BrowserFrame>
-        </div>
-        <div className="flip-face flip-back">
-          <div>
-            <span className="small-label">Chrome Extension - 2025</span>
-            <h3>{project.name}</h3>
-            <p>{project.description}</p>
-            <div className="tag-row">
-              {project.stack.map((tag) => (
-                <span key={tag}>{tag}</span>
-              ))}
-            </div>
-          </div>
-          <a href={project.href} target="_blank" rel="noreferrer">
-            View project <ArrowRight size={15} />
-          </a>
-        </div>
-      </div>
-    </article>
-  );
-}
+
 
 export default function Portfolio() {
   const [pastHero, setPastHero] = useState(false);
@@ -536,6 +527,19 @@ export default function Portfolio() {
           ]}
         />
 
+        <section id="work" style={{ paddingBottom: "6rem", background: "transparent" }}>
+          <div className="section" style={{ paddingTop: "6rem", paddingBottom: "3rem" }}>
+            <span className="section-label" style={{ marginBottom: 0, color: "var(--ink-muted)" }}>Recently Shipped ▶</span>
+          </div>
+          <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 2rem" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+              {featuredProjects.map((project, index) => (
+                <FeaturedProject project={project} index={index} key={project.name} />
+              ))}
+            </div>
+          </div>
+        </section>
+
         <div className="dark-world">
           <button
             className={`theme-toggle ${pastHero ? "visible" : ""}`}
@@ -551,23 +555,7 @@ export default function Portfolio() {
             />
           ) : null}
 
-          <section id="work" className="section work-section">
-            <span className="section-label">Recently Shipped ▶</span>
-            <div className="featured-stack">
-              {featuredProjects.map((project, index) => (
-                <FeaturedProject project={project} index={index} key={project.name} />
-              ))}
-            </div>
 
-            <div className="also-built">
-              <span className="section-label">Also Built ⁕</span>
-              <div className="other-grid">
-                {alsoBuilt.map((project) => (
-                  <FlipCard project={project} key={project.name} />
-                ))}
-              </div>
-            </div>
-          </section>
 
           <section id="about" className="section about-section">
             <div className="about-copy">
