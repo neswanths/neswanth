@@ -1,19 +1,48 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
-import { motion } from "motion/react";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import {
   ArrowRight,
   Award,
   ChevronDown,
-  CircleDot,
   Grid3x3,
   Minus,
-  Moon,
   Network,
   Terminal,
+  Mail,
+  Download,
+  X
 } from "lucide-react";
+
+function GithubIcon({ size = 20 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.2c3-.3 6-1.5 6-6.5 0-1.4-.5-2.5-1.5-3.5.1-.3.6-1.7-.1-3.5 0 0-1.2-.4-3.9 1.4a12.3 12.3 0 0 0-7 0C6 2.7 4.8 3.1 4.8 3.1c-.7 1.8-.2 3.2-.1 3.5-1 1-1.5 2.1-1.5 3.5 0 5 3 6.2 6 6.5a4.8 4.8 0 0 0-1 3.2v4"></path>
+    </svg>
+  );
+}
+
+function LinkedinIcon({ size = 20 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+      <rect x="2" y="9" width="4" height="12"></rect>
+      <circle cx="4" cy="4" r="2"></circle>
+    </svg>
+  );
+}
+
+function InstagramIcon({ size = 20 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+    </svg>
+  );
+}
 
 type CSSVars = React.CSSProperties & Record<`--${string}`, string | number>;
 
@@ -110,7 +139,7 @@ const featuredProjects = [
     address: "https://d-cloud-public.vercel.app",
     href: "https://d-cloud-public.vercel.app",
     description:
-      "Decentralized cloud storage on Holochain with Ed25519 identity, AES-256-GCM encryption, and 3-of-5 erasure coding.",
+      "Decentralized cloud storage that survives node failures Ã¢â‚¬â€ files stay recoverable even when parts of the network go down.",
     preview: "dcloud",
   },
   {
@@ -118,7 +147,7 @@ const featuredProjects = [
     address: "https://vigil-amin.vercel.app",
     href: "https://vigil-amin.vercel.app",
     description:
-      "Agentic Market Intelligence Network with five specialized BDI agents, live state propagation, FastAPI, and React/Vite.",
+      "A network of AI agents that research markets, analyze competitors, and build strategy Ã¢â‚¬â€ autonomously. Real-time, no manual prompting.",
     preview: "vigil",
   },
   {
@@ -126,7 +155,7 @@ const featuredProjects = [
     address: "https://blinky-nst.vercel.app",
     href: "https://blinky-nst.vercel.app",
     description:
-      "Minimalist bookmark manager with Chrome extension, FastAPI backend, OAuth2, JWT sessions, and persistent PostgreSQL sync.",
+      "A bookmark manager that actually works across devices. Chrome extension, web app, everything stays in sync Ã¢â‚¬â€ instantly.",
     preview: "blinky",
   },
   {
@@ -134,31 +163,211 @@ const featuredProjects = [
     address: "https://github.com/neswanths/sentinel-mesh",
     href: "https://github.com/neswanths/sentinel-mesh",
     description:
-      "Bio-inspired distributed intrusion detection using Artificial Immune Systems theory, gossip consensus, and a 20-node mesh.",
+      "A security system that detects network attacks the way your immune system detects disease Ã¢â‚¬â€ no central authority, 20 nodes, self-organizing threat response.",
     preview: "sentinel",
   },
 ] as const;
 
-function Marquee({
-  items,
-  reverse = false,
-}: {
-  items: string[];
-  reverse?: boolean;
-}) {
-  const repeated = useMemo(() => [...items, ...items, ...items], [items]);
+const TECH_STACK = [
+  { name: "Python", slug: "python", color: "3776AB" },
+  { name: "React", slug: "react", color: "61DAFB" },
+  { name: "FastAPI", slug: "fastapi", color: "009688" },
+  { name: "LangGraph", slug: "langchain", color: "1C3C3C" },
+  { name: "PostgreSQL", slug: "postgresql", color: "4169E1" },
+  { name: "TypeScript", slug: "typescript", color: "3178C6" },
+  { name: "Redis", slug: "redis", color: "DC382D" },
+  { name: "WebSockets", fallbackLabel: "WS" },
+  { name: "OAuth2", fallbackLabel: "O2" },
+  { name: "D3.js", slug: "d3", color: "F9A03C" },
+  { name: "Zustand", fallbackLabel: "Z" },
+  { name: "Vite", slug: "vite", color: "646CFF" },
+  { name: "Tailwind CSS", slug: "tailwindcss", color: "06B6D4" },
+  { name: "Rust", slug: "rust", color: "000000" },
+  { name: "Holochain", fallbackLabel: "H" },
+  { name: "C++", slug: "cplusplus", color: "00599C" },
+  { name: "Git", slug: "git", color: "F05032" },
+  { name: "Docker", slug: "docker", color: "2496ED" },
+] as const;
+
+function fallbackTechIconSrc(label: string) {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#1c1a17" fill-opacity=".1"/><text x="12" y="15.5" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="700" fill="#1c1a17">${label}</text></svg>`;
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+}
+
+function TechStackSection() {
+  return (
+    <section id="tech-stack" className="w-full bg-[var(--bg)] py-24">
+      <div className="mx-auto max-w-6xl px-4 md:px-8">
+        <h2 className="font-[family-name:var(--font-display)] text-4xl font-normal italic leading-none text-[var(--ink)] md:text-5xl">
+          my tech stack.
+        </h2>
+
+        <div className="mt-8 flex flex-wrap gap-2.5 md:gap-3.5">
+          {TECH_STACK.map((tech) => {
+            const fallbackSrc = fallbackTechIconSrc("fallbackLabel" in tech ? tech.fallbackLabel : tech.name.slice(0, 1));
+            const iconSrc = "slug" in tech
+              ? `https://cdn.simpleicons.org/${tech.slug}/${tech.color}`
+              : fallbackSrc;
+
+            return (
+              <div
+                key={tech.name}
+                className="flex items-center gap-1.5 md:gap-2 px-2 md:px-2.5 py-[5px] md:py-[6px] rounded-md hover:cursor-pointer border border-dashed border-black/20 shadow-[inset_0_2px_6px_rgba(0,0,0,0.08)] hover:shadow-[inset_0_2px_6px_rgba(0,0,0,0.15)] font-[family-name:var(--font-body)] text-[12.5px] md:text-sm font-medium text-[var(--ink-muted)] hover:text-[var(--ink)] transition-all duration-500 hover:scale-[1.02] bg-white/40 hover:bg-white/60"
+              >
+                <img
+                  src={iconSrc}
+                  alt={`${tech.name} logo`}
+                  className="h-[18px] w-[18px] object-contain md:h-5 md:w-5"
+                  loading="lazy"
+                  onError={(event) => {
+                    event.currentTarget.onerror = null;
+                    event.currentTarget.src = fallbackSrc;
+                  }}
+                />
+                <span>{tech.name}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const resumeUrl = "https://drive.google.com/file/d/1OHsZ1Q35jMyAAsumpkp_dEHf4ZGXzcUX/view?usp=drive_link";
+
+const socialLinks = [
+  { label: "Email", href: "mailto:neswanths@gmail.com", icon: <Mail size={20} /> },
+  { label: "GitHub", href: "https://github.com/neswanths", icon: <GithubIcon size={20} /> },
+  { label: "LinkedIn", href: "https://linkedin.com/in/neswanth", icon: <LinkedinIcon size={20} /> },
+  { label: "Instagram", href: "https://instagram.com/neswanths", icon: <InstagramIcon size={20} /> },
+];
+
+const services = [
+  {
+    index: "01",
+    title: "AI-Powered Features",
+    body: "Your product, but smarter. I add AI to what you already have — so it understands your users, surfaces the right things, and handles work automatically.",
+  },
+  {
+    index: "02",
+    title: "Full-Stack Web Apps",
+    body: "You have an idea. I build the whole thing — design, backend, frontend, everything. You get a product that works, not a prototype that needs finishing.",
+  },
+  {
+    index: "03",
+    title: "Agentic AI Systems",
+    body: "The tasks your team does manually, every day — researching, deciding, following up. I build systems that handle those on their own.",
+  },
+] as const;
+
+type ServiceCard = (typeof services)[number];
+
+function ServicesSection() {
+  const [activeCard, setActiveCard] = useState<ServiceCard | null>(null);
+
+  useEffect(() => {
+    if (!activeCard) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setActiveCard(null);
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [activeCard]);
 
   return (
-    <div className="marquee-strip" aria-hidden="true">
-      <div className={`marquee-track ${reverse ? "marquee-reverse" : ""}`}>
-        {repeated.map((item, index) => (
-          <span className="marquee-text" key={`${item}-${index}`}>
-            {item}
-            <span className="marquee-diamond">◆</span>
-          </span>
-        ))}
+    <section id="services" className="bg-[var(--bg)] py-24 md:py-32">
+      <div className="mx-auto w-full max-w-[1180px] px-5 md:px-8">
+        <div className="mb-16 max-w-2xl text-left">
+          <h2 className="font-[var(--font-display)] text-5xl font-normal italic leading-none text-[var(--ink)] md:text-6xl">
+            what I build.
+          </h2>
+          <p className="mt-5 font-[var(--font-body)] text-base leading-relaxed text-[var(--ink-muted)]">
+            The work I take on. The problems I solve.
+          </p>
+        </div>
+
+        <div className="group grid grid-cols-1 gap-6 md:grid-cols-3">
+          {services.map((service) => (
+            <button
+              type="button"
+              key={service.index}
+              onClick={() => setActiveCard(service)}
+              className="flex h-full min-h-[340px] cursor-pointer flex-col rounded-2xl border border-white/10 bg-[var(--bg-dark)] p-8 text-left shadow-[0_28px_80px_rgba(15,14,12,0.18)] outline-none transition-all duration-300 ease-out group-hover:opacity-40 hover:!opacity-100 hover:-translate-y-2 hover:border-[rgba(196,145,90,0.35)] hover:shadow-[0_0_30px_rgba(196,145,90,0.15),0_34px_90px_rgba(15,14,12,0.24)] focus-visible:!opacity-100 focus-visible:-translate-y-2 focus-visible:ring-2 focus-visible:ring-[var(--accent-warm)] focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--bg)] md:p-10"
+              aria-label={`Open ${service.title}`}
+            >
+              <span className="font-mono text-sm font-medium tracking-[0.16em] text-[var(--accent-warm)]">
+                {service.index}
+              </span>
+              <div className="mt-12">
+                <h3 className="mb-4 font-[var(--font-display)] text-3xl font-normal italic leading-tight text-[#f7f4ef]">
+                  {service.title}
+                </h3>
+                <p className="font-[var(--font-body)] text-[0.96rem] leading-[1.65] text-white/70">
+                  {service.body}
+                </p>
+              </div>
+            </button>
+          ))}
+        </div>
       </div>
-    </div>
+
+      <AnimatePresence>
+        {activeCard ? (
+          <>
+            <motion.button
+              type="button"
+              className="fixed inset-0 z-50 cursor-default bg-black/40 backdrop-blur-md"
+              aria-label="Close service details"
+              onClick={() => setActiveCard(null)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.22, ease: "easeOut" }}
+            />
+            <motion.div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="service-modal-title"
+              className="fixed inset-0 z-50 m-auto flex h-fit max-h-[80vh] w-[calc(100vw_-_2rem)] max-w-2xl flex-col overflow-hidden rounded-2xl border border-white/10 bg-[var(--bg-dark)] p-8 text-left shadow-[0_0_70px_rgba(196,145,90,0.18),0_40px_120px_rgba(0,0,0,0.45)] md:p-10"
+              initial={{ opacity: 0, y: 24, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 18, scale: 0.97 }}
+              transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <button
+                type="button"
+                className="absolute right-5 top-5 inline-flex size-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-white/70 transition-colors duration-200 hover:bg-white/[0.08] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-warm)]"
+                aria-label="Close service details"
+                onClick={() => setActiveCard(null)}
+              >
+                <X size={18} />
+              </button>
+
+              <span className="font-mono text-sm font-medium tracking-[0.16em] text-[var(--accent-warm)]">
+                {activeCard.index}
+              </span>
+              <div className="mt-10 pr-8">
+                <h3 id="service-modal-title" className="font-[var(--font-display)] text-4xl font-normal italic leading-none text-[#f7f4ef] md:text-5xl">
+                  {activeCard.title}
+                </h3>
+                <p className="mt-8 max-w-xl font-[var(--font-body)] text-lg leading-[1.65] text-white/70">
+                  {activeCard.body}
+                </p>
+              </div>
+            </motion.div>
+          </>
+        ) : null}
+      </AnimatePresence>
+    </section>
   );
 }
 
@@ -347,8 +556,6 @@ function FeaturedProject({
 export default function Portfolio() {
   const [pastHero, setPastHero] = useState(false);
   const [heroMode, setHeroMode] = useState<"chaos" | "cleaned" | "minimal">("minimal");
-  const [reveal, setReveal] = useState<{ x: number; y: number; active: boolean } | null>(null);
-
   useEffect(() => {
     const onScroll = () => setPastHero(window.scrollY > window.innerHeight * 0.86);
     onScroll();
@@ -369,15 +576,7 @@ export default function Portfolio() {
     return () => mobileQuery.removeEventListener("change", enforceMobileMinimal);
   }, []);
 
-  const triggerReveal = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    setReveal({
-      x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2,
-      active: true,
-    });
-    window.setTimeout(() => setReveal(null), 780);
-  };
+
 
   return (
     <>
@@ -516,20 +715,28 @@ export default function Portfolio() {
           </a>
         </section>
 
-        <Marquee
-          items={[
-            "AI/ML Researcher",
-            "Building Agentic Systems",
-            "Calisthenics & Boxing",
-            "Chasing Hard Problems",
-            "Anime & Deep Work",
-            "First Principles Always",
-          ]}
-        />
+
+
+        <section id="about" className="section about-section">
+          <div className="about-copy">
+            <p className="about-greeting">Hey, I&apos;m Neswanth Pasupuleti.</p>
+            <p>
+              AI undergraduate working at the intersection of research and production &mdash; from multi-agent systems to full-stack products.
+            </p>
+            <p>
+              I build from first principles, ship fast, and go deep enough that the work can stand on its own.
+            </p>
+            <p className="about-status">
+              Open to freelance work and research collaborations.
+            </p>
+          </div>
+          <div className="about-separator" aria-hidden="true" />
+          <p className="about-signoff">&mdash; Ships at 2am. Lifts at 6pm.</p>
+        </section>
 
         <section id="work" style={{ paddingBottom: "6rem", background: "transparent" }}>
           <div className="section" style={{ paddingTop: "6rem", paddingBottom: "3rem" }}>
-            <span className="section-label" style={{ marginBottom: 0, color: "var(--ink-muted)" }}>Recently Shipped ▶</span>
+            <span className="section-label" style={{ marginBottom: 0, color: "var(--ink-muted)" }}>Recently Shipped Ã¢â€“Â¶</span>
           </div>
           <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 2rem" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
@@ -540,95 +747,60 @@ export default function Portfolio() {
           </div>
         </section>
 
-        <div className="dark-world">
-          <button
-            className={`theme-toggle ${pastHero ? "visible" : ""}`}
-            onClick={triggerReveal}
-            aria-label="Reveal dark theme"
-          >
-            <Moon size={18} />
-          </button>
-          {reveal?.active ? (
-            <div
-              className="theme-reveal"
-              style={{ "--x": `${reveal.x}px`, "--y": `${reveal.y}px` } as CSSVars}
-            />
-          ) : null}
+        <ServicesSection />
 
+        <TechStackSection />
 
+        <section id="contact" className="section contact-section">
+          <h2>Let's build something that matters.</h2>
+          <p className="contact-subline">Open to freelance work, research collaborations, and interesting problems.</p>
 
-          <section id="about" className="section about-section">
-            <div className="about-copy">
-              <span className="section-label">About</span>
-              <h2>I build things that go deep.</h2>
-              <p>
-                I am an AI/ML undergraduate building distributed systems, agentic networks, and
-                competitive programming solutions from first principles.
-              </p>
-              <p>
-                I care about research depth and shipping velocity in the same breath: understand the
-                system, build the system, break it, then make it stronger.
-              </p>
-              <p>
-                I train my body the same way I train my mind, with discipline and no shortcuts. The
-                PhD path matters because I want to work on problems that matter, not just use what
-                others built.
-              </p>
-            </div>
-            <div className="stats-cluster">
-              {[
-                "2nd Place PRAJWALAN 2K26",
-                "Top 8% Nationally - AlgoUniversity Tech Fellowship",
-                "Codeforces Competitive Programmer",
-                "Python, TypeScript, FastAPI, React, PyTorch, Rust, C++",
-              ].map((item) => (
-                <div className="stat-card" key={item}>
-                  <CircleDot size={15} />
-                  <span>{item}</span>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <Marquee
-            reverse
-            items={[
-              "Python",
-              "TypeScript",
-              "FastAPI",
-              "React",
-              "Next.js",
-              "PyTorch",
-              "Rust",
-              "C++",
-              "Holochain",
-              "WebSockets",
-              "D3.js",
-              "PostgreSQL",
-              "Docker",
-            ]}
-          />
-
-          <section id="contact" className="section contact-section">
-            <p>Let&apos;s build something that matters.</p>
-            <div className="contact-links">
-              <a href="mailto:neswanths@gmail.com">email</a>
-              <a href="https://github.com/neswanths" target="_blank" rel="noreferrer">
-                GitHub
+          <div className="contact-card">
+            <h3>Currently available. Let's talk.</h3>
+            <div className="contact-actions">
+              <a href="mailto:neswanths@gmail.com" className="btn-primary">
+                <Mail size={16} /> Send Message
               </a>
-              <a href="https://linkedin.com/in/neswanth" target="_blank" rel="noreferrer">
-                LinkedIn
+              <a href={resumeUrl} target="_blank" rel="noreferrer" className="btn-secondary">
+                <Download size={16} /> Download Resume
               </a>
             </div>
-          </section>
-        </div>
+          </div>
+
+          <div className="contact-links">
+            {socialLinks.map((link) => (
+              <a
+                href={link.href}
+                target={link.href.startsWith("mailto:") ? undefined : "_blank"}
+                rel={link.href.startsWith("mailto:") ? undefined : "noreferrer"}
+                aria-label={link.label}
+                key={link.label}
+              >
+                {link.icon}
+              </a>
+            ))}
+          </div>
+        </section>
       </main>
 
       <footer className="site-footer">
         <span>Neswanth</span>
-        <strong>I go deep or I don&apos;t go at all.</strong>
-        <small>© 2026</small>
+        <div className="footer-links">
+          {socialLinks.map((link) => (
+            <a
+              href={link.href}
+              target={link.href.startsWith("mailto:") ? undefined : "_blank"}
+              rel={link.href.startsWith("mailto:") ? undefined : "noreferrer"}
+              aria-label={link.label}
+              key={link.label}
+            >
+              {link.icon}
+            </a>
+          ))}
+        </div>
+        <small>Ã‚Â© 2026</small>
       </footer>
     </>
   );
 }
+
