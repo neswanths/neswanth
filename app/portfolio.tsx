@@ -139,7 +139,7 @@ const featuredProjects = [
     address: "https://d-cloud-public.vercel.app",
     href: "https://d-cloud-public.vercel.app",
     description:
-      "Decentralized cloud storage that survives node failures Ã¢â‚¬â€ files stay recoverable even when parts of the network go down.",
+      "Decentralized cloud storage that survives node failures — files stay recoverable even when parts of the network go down.",
     preview: "dcloud",
   },
   {
@@ -147,7 +147,7 @@ const featuredProjects = [
     address: "https://vigil-amin.vercel.app",
     href: "https://vigil-amin.vercel.app",
     description:
-      "A network of AI agents that research markets, analyze competitors, and build strategy Ã¢â‚¬â€ autonomously. Real-time, no manual prompting.",
+      "A network of AI agents that research markets, analyze competitors, and build strategy — autonomously. Real-time, no manual prompting.",
     preview: "vigil",
   },
   {
@@ -155,7 +155,7 @@ const featuredProjects = [
     address: "https://blinky-nst.vercel.app",
     href: "https://blinky-nst.vercel.app",
     description:
-      "A bookmark manager that actually works across devices. Chrome extension, web app, everything stays in sync Ã¢â‚¬â€ instantly.",
+      "A bookmark manager that actually works across devices. Chrome extension, web app, everything stays in sync — instantly.",
     preview: "blinky",
   },
   {
@@ -163,7 +163,7 @@ const featuredProjects = [
     address: "https://github.com/neswanths/sentinel-mesh",
     href: "https://github.com/neswanths/sentinel-mesh",
     description:
-      "A security system that detects network attacks the way your immune system detects disease Ã¢â‚¬â€ no central authority, 20 nodes, self-organizing threat response.",
+      "A security system that detects network attacks the way your immune system detects disease — no central authority, 20 nodes, self-organizing threat response.",
     preview: "sentinel",
   },
 ] as const;
