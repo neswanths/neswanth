@@ -631,6 +631,7 @@ export default function Portfolio() {
         </a>
         <div>
           <a href="#work">Work</a>
+          <a href="#services">Services</a>
           <a href="#about">About</a>
           <a href="#contact">Contact</a>
         </div>
@@ -780,8 +781,10 @@ export default function Portfolio() {
         </section>
 
         <section id="work" style={{ paddingBottom: "6rem", background: "transparent" }}>
-          <div className="section" style={{ paddingTop: "6rem", paddingBottom: "3rem" }}>
-            <span className="section-label" style={{ marginBottom: 0, color: "var(--ink-muted)" }}>Recently Shipped Ã¢â€“Â¶</span>
+          <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 2rem", paddingTop: "6rem", paddingBottom: "3rem" }}>
+            <h2 className="font-[family-name:var(--font-display)] text-5xl font-normal italic leading-none text-[var(--ink)] md:text-6xl">
+              Projects
+            </h2>
           </div>
           <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 2rem" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
@@ -796,54 +799,98 @@ export default function Portfolio() {
 
         <TechStackSection />
 
-        <section id="contact" className="section contact-section">
-          <h2>Let's build something that matters.</h2>
-          <p className="contact-subline">Open to freelance work, research collaborations, and interesting problems.</p>
+        {/* Let's Connect Section */}
+        <section id="contact" className="lets-connect-section">
+          <div className="lets-connect-inner">
+            <h2 className="lets-connect-heading">Let&apos;s Build</h2>
+            <p className="lets-connect-subtext">
+              Have a project in mind or just want to chat about technology? I&apos;d love to hear from you and discuss how we can work together.
+            </p>
 
-          <div className="contact-card">
-            <h3>Currently available. Let's talk.</h3>
-            <div className="contact-actions">
-              <a href="mailto:neswanths@gmail.com" className="btn-primary">
-                <Mail size={16} /> Send Message
-              </a>
-              <a href={resumeUrl} target="_blank" rel="noreferrer" className="btn-secondary">
-                <Download size={16} /> Download Resume
-              </a>
+            <div className="lets-connect-card">
+              <h3>Ready to start something amazing?</h3>
+              <p className="availability-line">
+                I&apos;m currently available for freelance work and exciting opportunities. Let&apos;s bring your ideas to life!
+              </p>
+              <div className="lets-connect-actions">
+                <a href="mailto:neswanths@gmail.com" className="btn-primary">
+                  <Mail size={16} /> Send Message
+                </a>
+                <a href={resumeUrl} target="_blank" rel="noreferrer" className="btn-secondary">
+                  <Download size={16} /> Download Resume
+                </a>
+              </div>
+              <div className="lets-connect-socials">
+                {socialLinks.map((link) => (
+                  <a
+                    href={link.href}
+                    target={link.href.startsWith("mailto:") ? undefined : "_blank"}
+                    rel={link.href.startsWith("mailto:") ? undefined : "noreferrer"}
+                    aria-label={link.label}
+                    key={link.label}
+                  >
+                    {link.icon}
+                  </a>
+                ))}
+              </div>
             </div>
-          </div>
-
-          <div className="contact-links">
-            {socialLinks.map((link) => (
-              <a
-                href={link.href}
-                target={link.href.startsWith("mailto:") ? undefined : "_blank"}
-                rel={link.href.startsWith("mailto:") ? undefined : "noreferrer"}
-                aria-label={link.label}
-                key={link.label}
-              >
-                {link.icon}
-              </a>
-            ))}
           </div>
         </section>
       </main>
 
-      <footer className="site-footer">
-        <span>Neswanth</span>
-        <div className="footer-links">
-          {socialLinks.map((link) => (
-            <a
-              href={link.href}
-              target={link.href.startsWith("mailto:") ? undefined : "_blank"}
-              rel={link.href.startsWith("mailto:") ? undefined : "noreferrer"}
-              aria-label={link.label}
-              key={link.label}
-            >
-              {link.icon}
+      {/* Footer */}
+      <footer className="portfolio-footer">
+        <div className="footer-main">
+          <div className="footer-col footer-brand">
+            <span className="footer-name">Neswanth</span>
+            <p className="footer-tagline">
+              Applied AI Engineer focused on building reliable, scalable applications.
+            </p>
+            <div className="footer-social-icons">
+              <a href="https://github.com/neswanths" target="_blank" rel="noreferrer" aria-label="GitHub"><GithubIcon size={18} /></a>
+              <a href="https://linkedin.com/in/neswanth" target="_blank" rel="noreferrer" aria-label="LinkedIn"><LinkedinIcon size={18} /></a>
+              <a href="https://instagram.com/neswanths" target="_blank" rel="noreferrer" aria-label="Instagram"><InstagramIcon size={18} /></a>
+            </div>
+          </div>
+
+          <div className="footer-col">
+            <h4>Explore</h4>
+            <ul>
+              <li><a href="#top">Home</a></li>
+              <li><a href="#work">Projects</a></li>
+              <li><a href="#tech-stack">Skills</a></li>
+              <li><a href="#contact">Blog</a></li>
+            </ul>
+          </div>
+
+          <div className="footer-col">
+            <h4>Discover More</h4>
+            <ul>
+              <li><a href="#about">Experience</a></li>
+              <li><a href="#contact">Contact</a></li>
+              <li><a href="#">Terms &amp; Conditions</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+            </ul>
+          </div>
+
+          <div className="footer-col">
+            <h4>Let&apos;s Build</h4>
+            <a href={resumeUrl} target="_blank" rel="noreferrer" className="footer-resume-link">
+              Download Resume
             </a>
-          ))}
+            <a href="mailto:neswanths@gmail.com" className="footer-icon-btn" aria-label="Email">
+              <Mail size={18} />
+            </a>
+          </div>
         </div>
-        <small>Ã‚Â© 2026</small>
+
+        <div className="footer-bottom">
+          <span className="footer-copyright">
+            © 2026 Neswanth. All rights reserved. &nbsp;·&nbsp;
+            <a href="mailto:neswanths@gmail.com"><Mail size={12} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '4px' }} />neswanths@gmail.com</a>
+          </span>
+          <span className="footer-collab">Always open to collaborate</span>
+        </div>
       </footer>
     </>
   );
