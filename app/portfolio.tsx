@@ -1,7 +1,7 @@
-﻿"use client";
+"use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import {
   ArrowRight,
@@ -169,65 +169,110 @@ const featuredProjects = [
 ] as const;
 
 const TECH_STACK = [
-  { name: "Python", slug: "python", color: "3776AB" },
-  { name: "React", slug: "react", color: "61DAFB" },
-  { name: "FastAPI", slug: "fastapi", color: "009688" },
-  { name: "LangGraph", slug: "langchain", color: "1C3C3C" },
-  { name: "PostgreSQL", slug: "postgresql", color: "4169E1" },
-  { name: "TypeScript", slug: "typescript", color: "3178C6" },
-  { name: "Redis", slug: "redis", color: "DC382D" },
-  { name: "WebSockets", fallbackLabel: "WS" },
-  { name: "OAuth2", fallbackLabel: "O2" },
-  { name: "D3.js", slug: "d3", color: "F9A03C" },
-  { name: "Zustand", fallbackLabel: "Z" },
-  { name: "Vite", slug: "vite", color: "646CFF" },
-  { name: "Tailwind CSS", slug: "tailwindcss", color: "06B6D4" },
-  { name: "Rust", slug: "rust", color: "000000" },
-  { name: "Holochain", fallbackLabel: "H" },
-  { name: "C++", slug: "cplusplus", color: "00599C" },
-  { name: "Git", slug: "git", color: "F05032" },
-  { name: "Docker", slug: "docker", color: "2496ED" },
-] as const;
+  // --- VISIBLE TOP TIER: Core AI & Primary Infrastructure Engine ---
+  { name: 'Python', slug: 'python', color: '3776AB', fallback: 'Py' },
+  { name: 'React', slug: 'react', color: '61DAFB', fallback: 'R' },
+  { name: 'FastAPI', slug: 'fastapi', color: '009688', fallback: 'FA' },
+  { name: 'LangGraph', slug: 'langchain', color: '1C3C3C', fallback: 'LG' },
+  { name: 'PostgreSQL', slug: 'postgresql', color: '4169E1', fallback: 'PS' },
+  { name: 'TypeScript', slug: 'typescript', color: '3178C6', fallback: 'TS' },
+  { name: 'WebSockets', slug: 'socketdotio', color: '010101', fallback: 'WS' },
+  { name: 'Docker', slug: 'docker', color: '2496ED', fallback: 'D' },
+  { name: 'Supabase', slug: 'supabase', color: '3FCF8E', fallback: 'SB' },
+  { name: 'Redis', slug: 'redis', color: 'DC382D', fallback: 'R' },
+  { name: 'Git', slug: 'git', color: 'F05032', fallback: 'G' },
 
-function fallbackTechIconSrc(label: string) {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#1c1a17" fill-opacity=".1"/><text x="12" y="15.5" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="700" fill="#1c1a17">${label}</text></svg>`;
-  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+  // --- SECONDARY TIER: Core Languages, Supporting Tools & Libraries ---
+  { name: 'JavaScript (ES6+)', slug: 'javascript', color: 'F7DF1E', fallback: 'JS' },
+  { name: 'Rust', slug: 'rust', color: '000000', fallback: 'R' },
+  { name: 'C++', slug: 'cplusplus', color: '00599C', fallback: 'C++' },
+  { name: 'C', slug: 'c', color: 'A8B9CC', fallback: 'C' },
+  { name: 'Java', slug: 'oracle', color: 'E76F51', fallback: 'J' },
+  { name: 'Upstash', slug: 'upstash', color: '00E6C3', fallback: 'U' },
+  { name: 'D3.js', slug: 'd3', color: 'F9A03C', fallback: 'D3' },
+  { name: 'React Flow', slug: 'react', color: 'FF0072', fallback: 'RF' },
+  { name: 'Zustand', slug: 'react', color: '808080', fallback: 'Z' },
+  { name: 'Vite', slug: 'vite', color: '646CFF', fallback: 'V' },
+  { name: 'Tailwind CSS', slug: 'tailwindcss', color: '06B6D4', fallback: 'TW' },
+  { name: 'Holochain', slug: 'holochain', color: '02D4E0', fallback: 'H' },
+  { name: 'SQLite', slug: 'sqlite', color: '003B57', fallback: 'SQ' },
+  { name: 'OAuth2', slug: 'auth0', color: 'EB5424', fallback: 'OA' },
+  { name: 'JWT', slug: 'jsonwebtokens', color: '000000', fallback: 'JWT' }
+];
+
+function TechBadge({ tech }: { tech: typeof TECH_STACK[0] }) {
+  const [imgError, setImgError] = useState(false);
+
+  return (
+    <div className="
+      group flex items-center gap-1.5 md:gap-2 px-2.5 py-[5px] md:py-[6px] 
+      rounded-md border border-dashed border-black/15 bg-white/30
+      shadow-[inset_0_2px_4px_rgba(0,0,0,0.04)] hover:shadow-[inset_0_2px_6px_rgba(0,0,0,0.08)]
+      hover:border-black/35 hover:scale-[1.02]
+      transition-all duration-300 ease-out cursor-pointer select-none
+    ">
+      {imgError ? (
+        <span className="text-xs font-mono font-bold text-[var(--ink-muted)] group-hover:text-[var(--ink)]">
+          {tech.fallback}
+        </span>
+      ) : (
+        <img
+          src={`https://cdn.simpleicons.org/${tech.slug}/${tech.color}`}
+          alt=""
+          className="w-[16px] h-[16px] md:w-[18px] md:h-[18px] object-contain group-hover:scale-105 transition-transform duration-300"
+          loading="lazy"
+          onError={() => setImgError(true)}
+        />
+      )}
+      <span className="text-[12.5px] md:text-sm font-medium text-[var(--ink-muted)] group-hover:text-[var(--ink)] transition-colors duration-300 font-[family-name:var(--font-body)]">
+        {tech.name}
+      </span>
+    </div>
+  );
 }
 
 function TechStackSection() {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const visibleTech = isExpanded ? TECH_STACK : TECH_STACK.slice(0, 11);
+
   return (
-    <section id="tech-stack" className="w-full bg-[var(--bg)] py-24">
-      <div className="mx-auto max-w-6xl px-4 md:px-8">
-        <h2 className="font-[family-name:var(--font-display)] text-4xl font-normal italic leading-none text-[var(--ink)] md:text-5xl">
-          my tech stack.
-        </h2>
+    <section id="tech-stack" className="py-16 w-full bg-[var(--bg)]">
+      <div className="max-w-3xl mx-auto px-4 md:px-0 flex flex-col">
+        {/* Top Header Row with Conditional Less Button */}
+        <div className="w-full flex justify-between items-end pb-2">
+          <h2 className="text-2xl md:text-3xl font-[family-name:var(--font-display)] italic text-[var(--ink)] tracking-tight">
+            my tech stack.
+          </h2>
+          {isExpanded && (
+            <button
+              onClick={() => setIsExpanded(false)}
+              className="text-xs md:text-sm font-[family-name:var(--font-body)] text-[var(--ink-muted)] hover:text-[var(--ink)] transition-colors duration-300 cursor-pointer outline-none pb-0.5"
+            >
+              less ^
+            </button>
+          )}
+        </div>
 
-        <div className="mt-8 flex flex-wrap gap-2.5 md:gap-3.5">
-          {TECH_STACK.map((tech) => {
-            const fallbackSrc = fallbackTechIconSrc("fallbackLabel" in tech ? tech.fallbackLabel : tech.name.slice(0, 1));
-            const iconSrc = "slug" in tech
-              ? `https://cdn.simpleicons.org/${tech.slug}/${tech.color}`
-              : fallbackSrc;
-
-            return (
-              <div
-                key={tech.name}
-                className="flex items-center gap-1.5 md:gap-2 px-2 md:px-2.5 py-[5px] md:py-[6px] rounded-md hover:cursor-pointer border border-dashed border-black/20 shadow-[inset_0_2px_6px_rgba(0,0,0,0.08)] hover:shadow-[inset_0_2px_6px_rgba(0,0,0,0.15)] font-[family-name:var(--font-body)] text-[12.5px] md:text-sm font-medium text-[var(--ink-muted)] hover:text-[var(--ink)] transition-all duration-500 hover:scale-[1.02] bg-white/40 hover:bg-white/60"
-              >
-                <img
-                  src={iconSrc}
-                  alt={`${tech.name} logo`}
-                  className="h-[18px] w-[18px] object-contain md:h-5 md:w-5"
-                  loading="lazy"
-                  onError={(event) => {
-                    event.currentTarget.onerror = null;
-                    event.currentTarget.src = fallbackSrc;
-                  }}
-                />
-                <span>{tech.name}</span>
-              </div>
-            );
-          })}
+        {/* Tag Container */}
+        <div className="w-full flex flex-wrap gap-2.5 md:gap-3.5">
+          {visibleTech.map((tech) => (
+            <TechBadge key={tech.name} tech={tech} />
+          ))}
+          {/* Inline More Button positioned precisely after Git when collapsed */}
+          {!isExpanded && (
+            <button
+              onClick={() => setIsExpanded(true)}
+              className="
+                flex items-center gap-1 px-3 py-[5px] md:py-[6px] rounded-md
+                border border-dashed border-[var(--accent-warm)]/30 bg-[var(--bg)]
+                text-[12.5px] md:text-sm font-medium font-[family-name:var(--font-body)] text-[var(--accent-warm)]
+                shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] hover:shadow-[inset_0_2px_6px_rgba(0,0,0,0.06)]
+                hover:bg-white/50 hover:scale-[1.02] transition-all duration-300 cursor-pointer outline-none
+              "
+            >
+              more v
+            </button>
+          )}
         </div>
       </div>
     </section>
