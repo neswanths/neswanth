@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
+
 import {
   ArrowRight,
   Award,
@@ -157,14 +158,6 @@ const featuredProjects = [
     description:
       "A bookmark manager that actually works across devices. Chrome extension, web app, everything stays in sync — instantly.",
     preview: "blinky",
-  },
-  {
-    name: "SentinelMesh",
-    address: "https://github.com/neswanths/sentinel-mesh",
-    href: "https://github.com/neswanths/sentinel-mesh",
-    description:
-      "A security system that detects network attacks the way your immune system detects disease — no central authority, 20 nodes, self-organizing threat response.",
-    preview: "sentinel",
   },
 ] as const;
 
@@ -335,12 +328,14 @@ function ServicesSection() {
           <h2 className="font-[var(--font-display)] text-5xl font-normal italic leading-none text-[var(--ink)] md:text-6xl">
             what I build.
           </h2>
+          
+
           <p className="mt-5 font-[var(--font-body)] text-base leading-relaxed text-[var(--ink-muted)]">
             The work I take on. The problems I solve.
           </p>
         </div>
 
-        <div className="group grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {services.map((service) => (
             <button
               type="button"
@@ -418,7 +413,7 @@ function ServicesSection() {
 
 function IframePreview({ project }: { project: (typeof featuredProjects)[number] }) {
   const [status, setStatus] = useState<"loading" | "loaded" | "error">("loading");
-  const hasLiveIframe = project.name !== "SentinelMesh";
+  const hasLiveIframe = true;
 
   useEffect(() => {
     if (!hasLiveIframe) return;
@@ -480,41 +475,7 @@ function ProjectPreview({ type }: { type: (typeof featuredProjects)[number]["pre
     );
   }
 
-  if (type === "sentinel") {
-    return (
-      <div className="preview preview-sentinel">
-        <svg viewBox="0 0 520 300" role="img" aria-label="SentinelMesh network visualization">
-          {[
-            [72, 92, 184, 64],
-            [184, 64, 286, 110],
-            [286, 110, 420, 72],
-            [132, 216, 286, 110],
-            [286, 110, 366, 226],
-            [72, 92, 132, 216],
-            [420, 72, 366, 226],
-            [184, 64, 132, 216],
-          ].map(([x1, y1, x2, y2], i) => (
-            <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} />
-          ))}
-          {[
-            [72, 92, "clean"],
-            [184, 64, "watch"],
-            [286, 110, "alert"],
-            [420, 72, "clean"],
-            [132, 216, "clean"],
-            [366, 226, "watch"],
-          ].map(([x, y, state], i) => (
-            <circle className={`node ${state}`} key={i} cx={x} cy={y} r={state === "alert" ? 17 : 12} />
-          ))}
-        </svg>
-        <div className="mesh-terminal">
-          <span>negative selection active</span>
-          <span>gossip consensus: 20 nodes</span>
-          <strong>APT-class anomaly isolated</strong>
-        </div>
-      </div>
-    );
-  }
+
   if (type === "blinky") {
     return (
       <div className="preview preview-blinky">
@@ -597,6 +558,130 @@ function FeaturedProject({
 }
 
 
+
+/* ── research data array — add more entries here ── */
+const researchEntries = [
+  {
+    domain: "ARTIFICIAL IMMUNE SYSTEMS",
+    title: "SentinelMesh",
+    frontBody:
+      "A security system that detects network attacks the way your immune system detects disease — no central authority, 20 nodes, self-organising threat response.",
+    tags: ["AIS", "APT", "MESH"],
+    theoryBasis: "Negative Selection",
+    backBody:
+      "Detectors trained on self-traffic reject anomalies. Gossip-based consensus propagates threat signals across all 20 nodes. No central authority — the mesh decides.",
+    result: "APT-class lateral movement isolated.",
+    githubUrl: "https://github.com/neswanths/sentinel-mesh",
+  },
+];
+
+function ResearchCard({
+  entry,
+}: {
+  entry: (typeof researchEntries)[number];
+}) {
+  return (
+    <div className="flip-wrapper-research h-[320px]">
+      <div className="flip-card-research">
+        {/* ── Front face ── */}
+        <div
+          className="flip-face-research flex flex-col rounded-xl bg-[#ffffff] p-6"
+        >
+          {/* domain label — small-caps muted */}
+          <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--ink-muted)]">
+            {entry.domain}
+          </span>
+
+          {/* title — large serif italic */}
+          <h3 className="mt-3 font-[family-name:var(--font-display)] text-2xl font-normal italic leading-tight text-[var(--ink)]">
+            {entry.title}
+          </h3>
+
+          {/* body */}
+          <p className="mt-3 flex-1 font-[family-name:var(--font-body)] text-sm leading-relaxed text-[var(--ink-muted)]">
+            {entry.frontBody}
+          </p>
+
+          {/* tag chips */}
+          <div className="mt-auto flex flex-wrap gap-1.5 pt-3">
+            {entry.tags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-md border border-black/8 bg-[#f5f3ef] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-[var(--ink-muted)]"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Back face ── */}
+        <div
+          className="flip-face-research flip-back-research flex flex-col rounded-xl bg-[#faf9f7] p-6"
+        >
+          {/* theory basis label */}
+          <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--ink-muted)]">
+            Theory basis
+          </span>
+
+          {/* framework name — serif italic */}
+          <h4 className="mt-2 font-[family-name:var(--font-display)] text-xl font-normal italic text-[var(--ink)]">
+            {entry.theoryBasis}
+          </h4>
+
+          {/* mechanism body */}
+          <p className="mt-3 flex-1 font-[family-name:var(--font-body)] text-sm leading-relaxed text-[var(--ink-muted)]">
+            {entry.backBody}
+          </p>
+
+          {/* result */}
+          <span className="mt-auto text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--ink-muted)]">
+            Result
+          </span>
+          <p className="mt-1 font-[family-name:var(--font-body)] text-sm text-[var(--ink)]">
+            {entry.result}
+          </p>
+
+          {/* github link — plain inline, matches "View project →" style */}
+          <a
+            href={entry.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-flex w-fit items-center gap-1.5 text-[0.8rem] font-semibold tracking-[0.04em] text-[var(--ink)] no-underline transition-colors duration-200 hover:text-[var(--accent-warm)]"
+          >
+            View →
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ResearchSection() {
+  return (
+    <section id="research" className="bg-[var(--bg)] min-h-screen pt-24 pb-24 md:pt-32 md:pb-32">
+      <div className="mx-auto w-full max-w-[1280px] px-8">
+        {/* heading block — mirrors the Projects heading exactly */}
+        <div className="pb-12">
+          {/* section label — same as "Projects" */}
+          <h2 className="font-[family-name:var(--font-display)] text-5xl font-normal italic leading-none text-[var(--ink)] md:text-6xl">
+            Research
+          </h2>
+
+          {/* thin divider — matches the Projects section border */}
+          <hr className="mt-8 border-0 border-t border-[var(--border)]" />
+        </div>
+
+        {/* card grid: 3 → 2 → 1 */}
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {researchEntries.map((entry, i) => (
+            <ResearchCard key={i} entry={entry} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export default function Portfolio() {
   const [pastHero, setPastHero] = useState(false);
@@ -780,7 +865,7 @@ export default function Portfolio() {
           <p className="about-signoff">&mdash; Ships at 2am. Lifts at 6pm.</p>
         </section>
 
-        <section id="work" style={{ paddingBottom: "6rem", background: "transparent" }}>
+        <section id="work" style={{ paddingBottom: "0", background: "transparent" }}>
           <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 2rem", paddingTop: "6rem", paddingBottom: "3rem" }}>
             <h2 className="font-[family-name:var(--font-display)] text-5xl font-normal italic leading-none text-[var(--ink)] md:text-6xl">
               Projects
@@ -795,6 +880,7 @@ export default function Portfolio() {
           </div>
         </section>
 
+        <ResearchSection />
         <ServicesSection />
 
         <TechStackSection />
@@ -817,7 +903,7 @@ export default function Portfolio() {
                   <Mail size={16} /> Send Message
                 </a>
                 <a href={resumeUrl} target="_blank" rel="noreferrer" className="btn-secondary">
-                  <Download size={16} /> Download Resume
+                  <Download size={16} /> Resume
                 </a>
               </div>
               <div className="lets-connect-socials">
