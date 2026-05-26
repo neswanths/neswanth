@@ -45,6 +45,14 @@ function InstagramIcon({ size = 20 }: { size?: number }) {
   );
 }
 
+function WhatsappIcon({ size = 20 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+    </svg>
+  );
+}
+
 type CSSVars = React.CSSProperties & Record<`--${string}`, string | number>;
 
 const heroObjects = [
@@ -287,17 +295,20 @@ const services = [
   {
     index: "01",
     title: "AI-Powered Features",
-    body: "Your product, but smarter. I add AI to what you already have — so it understands your users, surfaces the right things, and handles work automatically.",
+    body: "Your product already has users.\nI make it intelligent enough to keep them.",
+    expandedBody: "Most products treat AI as a feature. It should be the layer that makes every other feature work better — surfacing what users actually need, handling work in the background, getting smarter the more it's used.\n\nI've added AI layers to existing products that reduced manual intervention by replacing repetitive judgment calls with systems that learn the pattern once and run it forever."
   },
   {
     index: "02",
     title: "Full-Stack Web Apps",
-    body: "You have an idea. I build the whole thing — design, backend, frontend, everything. You get a product that works, not a prototype that needs finishing.",
+    body: "You have an idea.\nI build the version that survives production.",
+    expandedBody: "Most freelancers build until it works locally, then hand it off. I build for what happens at 3AM when something breaks and you don't have an engineer on call.\n\nFull stack — design, backend, frontend, auth, database, deployment. One person accountable for the whole thing.\n\nVigil and Blinky are both live. You can use them right now."
   },
   {
     index: "03",
     title: "Agentic AI Systems",
-    body: "The tasks your team does manually, every day — researching, deciding, following up. I build systems that handle those on their own.",
+    body: "Your team makes the same decisions every day.\nI build systems that make them — and act on them.",
+    expandedBody: "Research, outreach, monitoring, follow-up — these aren't creative tasks. They're patterns. And patterns can be delegated to agents that don't sleep, don't forget, and don't need to be told twice.\n\nI've built multi-agent systems that replaced entire manual workflows — five specialized agents coordinating in real time, each with a defined role, none waiting on a human in the middle."
   },
 ] as const;
 
@@ -346,16 +357,21 @@ function ServicesSection() {
               className="service-card-dark flex h-full min-h-[340px] cursor-pointer flex-col rounded-2xl border border-white/10 bg-[var(--bg-dark)] p-8 text-left shadow-[0_28px_80px_rgba(15,14,12,0.18)] outline-none transition-all duration-300 ease-out group-hover:opacity-40 hover:!opacity-100 hover:-translate-y-2 hover:border-[rgba(196,145,90,0.35)] hover:shadow-[0_0_30px_rgba(196,145,90,0.15),0_34px_90px_rgba(15,14,12,0.24)] focus-visible:!opacity-100 focus-visible:-translate-y-2 focus-visible:ring-2 focus-visible:ring-[var(--accent-warm)] focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--bg)] md:p-10"
               aria-label={`Open ${service.title}`}
             >
-              <span className="font-mono text-sm font-medium tracking-[0.16em] text-[var(--accent-warm)]">
+              <span className="font-mono text-sm font-medium tracking-[0.16em] text-[var(--ink-muted)] opacity-50">
                 {service.index}
               </span>
-              <div className="mt-12">
+              <div className="mt-12 flex-1">
                 <h3 className="mb-4 font-[var(--font-display)] text-3xl font-normal italic leading-tight service-card-title">
                   {service.title}
                 </h3>
-                <p className="font-[var(--font-body)] text-[0.96rem] leading-[1.65] service-card-body">
+                <p className="font-[var(--font-body)] text-[0.96rem] leading-[1.65] service-card-body whitespace-pre-wrap">
                   {service.body}
                 </p>
+              </div>
+              <div className="mt-6 flex justify-start">
+                <span className="inline-flex w-fit items-center gap-1.5 text-[0.8rem] font-semibold tracking-[0.04em] text-white/50 no-underline transition-colors duration-200 group-hover:text-[var(--accent-warm)]">
+                  Learn more →
+                </span>
               </div>
             </button>
           ))}
@@ -394,16 +410,23 @@ function ServicesSection() {
                 <X size={18} />
               </button>
 
-              <span className="font-mono text-sm font-medium tracking-[0.16em] text-[var(--accent-warm)]">
-                {activeCard.index}
-              </span>
-              <div className="mt-10 pr-8">
+              <div className="mt-10 pr-8 flex-1 overflow-y-auto">
                 <h3 id="service-modal-title" className="font-[var(--font-display)] text-4xl font-normal italic leading-none service-card-title md:text-5xl">
                   {activeCard.title}
                 </h3>
-                <p className="mt-8 max-w-xl font-[var(--font-body)] text-lg leading-[1.65] service-card-body">
-                  {activeCard.body}
+                <p className="mt-8 mb-10 max-w-xl font-[var(--font-body)] text-lg leading-[1.65] service-card-body whitespace-pre-wrap">
+                  {activeCard.expandedBody}
                 </p>
+              </div>
+              <div className="mt-auto pt-6 border-t border-white/10">
+                <a 
+                  href="https://wa.me/919392280525" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--accent-warm)] px-6 py-4 font-semibold text-white transition-transform duration-200 hover:scale-[1.02]"
+                >
+                  Book a Call <ArrowRight size={18} />
+                </a>
               </div>
             </motion.div>
           </>
@@ -533,6 +556,15 @@ function LiveBadge() {
   );
 }
 
+function DownloadBadge() {
+  return (
+    <span className="download-badge">
+      <span />
+      DOWNLOAD
+    </span>
+  );
+}
+
 function FeaturedProject({
   project,
   index,
@@ -548,7 +580,9 @@ function FeaturedProject({
         <IframePreview project={project} />
       </div>
       <div className="fp-text">
-        <div><LiveBadge /></div>
+        <div>
+          {project.name === "D-Cloud" ? <DownloadBadge /> : <LiveBadge />}
+        </div>
         <h3>{project.name}</h3>
         <p>{project.description}</p>
         <a href={project.href} target="_blank" rel="noreferrer">
@@ -561,20 +595,29 @@ function FeaturedProject({
 
 
 
-/* ── research data array — add more entries here ── */
 const researchEntries = [
   {
     domain: "ARTIFICIAL IMMUNE SYSTEMS",
     title: "SentinelMesh",
     frontBody:
       "A security system that detects network attacks the way your immune system detects disease — no central authority, 20 nodes, self-organising threat response.",
-    tags: ["AIS", "APT", "MESH"],
+    tags: [], // Tags removed per instructions
     theoryBasis: "Negative Selection",
     backBody:
       "Detectors trained on self-traffic reject anomalies. Gossip-based consensus propagates threat signals across all 20 nodes. No central authority — the mesh decides.",
-    result: "APT-class lateral movement isolated.",
+    result: "Modelled on NSA-class threat detection. 20-node mesh. No central authority.",
     githubUrl: "https://github.com/neswanths/sentinel-mesh",
   },
+  {
+    domain: "ACTIVE RESEARCH THREADS",
+    title: "What's Next",
+    frontBody: "1. Agent learning in non-stationary environments: how agents adapt when everything around them, including other agents, is also adapting.\n\n2. Computer vision: grounding abstract reasoning in perception and spatial understanding.",
+    tags: [],
+    theoryBasis: "Current Focus",
+    backBody: "Training and optimization: the machinery behind how large models learn efficiently — scaling, convergence, what actually matters.",
+    result: "These are signal areas, not products.",
+    githubUrl: null, // No CTA for this card
+  }
 ];
 
 function ResearchCard({
@@ -600,20 +643,28 @@ function ResearchCard({
           </h3>
 
           {/* body */}
-          <p className="mt-3 flex-1 font-[family-name:var(--font-body)] text-sm leading-relaxed text-[var(--ink-muted)]">
+          <p className="mt-3 flex-1 font-[family-name:var(--font-body)] text-sm leading-relaxed text-[var(--ink-muted)] whitespace-pre-wrap">
             {entry.frontBody}
           </p>
 
-          {/* tag chips */}
-          <div className="mt-auto flex flex-wrap gap-1.5 pt-3">
-            {entry.tags.map((tag) => (
-              <span
-                key={tag}
-                className="research-tag rounded-md border border-black/8 bg-[#f5f3ef] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-[var(--ink-muted)]"
-              >
-                {tag}
-              </span>
-            ))}
+          {/* Result or tags area */}
+          <div className="mt-auto pt-4">
+            {entry.tags.length > 0 ? (
+              <div className="flex flex-wrap gap-1.5">
+                {entry.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="research-tag rounded-md border border-black/8 bg-[#f5f3ef] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-[var(--ink-muted)]"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            ) : entry.title === "SentinelMesh" ? (
+               <span className="block text-[10px] font-medium leading-relaxed text-[var(--ink-muted)] opacity-80">
+                 Modelled on NSA-class threat detection. 20-node mesh. No central authority.
+               </span>
+            ) : null}
           </div>
         </div>
 
@@ -644,15 +695,17 @@ function ResearchCard({
             {entry.result}
           </p>
 
-          {/* github link — plain inline, matches "View project →" style */}
-          <a
-            href={entry.githubUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-4 inline-flex w-fit items-center gap-1.5 text-[0.8rem] font-semibold tracking-[0.04em] text-[var(--ink)] no-underline transition-colors duration-200 hover:text-[var(--accent-warm)]"
-          >
-            View →
-          </a>
+          {/* github link — only show if url exists */}
+          {entry.githubUrl && (
+            <a
+              href={entry.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex w-fit items-center gap-1.5 text-[0.8rem] font-semibold tracking-[0.04em] text-[var(--ink)] no-underline transition-colors duration-200 hover:text-[var(--accent-warm)]"
+            >
+              View →
+            </a>
+          )}
         </div>
       </div>
     </div>
@@ -718,6 +771,14 @@ export default function Portfolio() {
   useEffect(() => {
     const current = document.documentElement.getAttribute("data-theme");
     if (current === "dark") setTheme("dark");
+  }, []);
+
+  // Word animation trigger
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      document.querySelector('.hero-headline')?.classList.add('word-animation-processed');
+    }, 100);
+    return () => clearTimeout(timer);
   }, []);
 
   const toggleTheme = () => {
@@ -838,18 +899,36 @@ export default function Portfolio() {
           {/* ── Left Column: headline + CTAs (minimal mode only) ── */}
           <div className="hero-left-col">
             <div className="hero-left-inner">
-              <h2 className="hero-headline">
-                AI <span className="hero-underline">freelance</span>
+              <h1 className="hero-headline">
+                {/* Replaced u-sr-only with standard Tailwind sr-only */}
+                <span className="sr-only">AI freelance and research where depth and delivery aren&apos;t a tradeoff.</span>
+                <span className="animate-word" style={{ transitionDelay: '310ms' }}>AI</span>
+                <span className="animate-space"> </span>
+                <a href="#services" className="animate-word-link">
+                  <span className="animate-word hero-underline" style={{ transitionDelay: '137ms' }}>freelance</span>
+                </a>
+                <br /> {/* Added line break here */}
+                <span className="animate-word" style={{ transitionDelay: '180.182ms' }}>and</span>
+                <span className="animate-space"> </span>
+                <a href="#research" className="animate-word-link">
+                  <span className="animate-word hero-underline" style={{ transitionDelay: '218.009ms' }}>research</span>
+                </a>
                 <br />
-                and <span className="hero-underline">research</span>
+                <span className="animate-word" style={{ transitionDelay: '265ms' }}>where</span>
+                <span className="animate-space"> </span>
+                <span className="animate-word" style={{ transitionDelay: '219ms' }}>depth</span>
+                <span className="animate-space"> </span>
+                <span className="animate-word" style={{ transitionDelay: '100ms' }}>and</span>
+                <span className="animate-space"> </span>
+                <span className="animate-word" style={{ transitionDelay: '412ms' }}>delivery</span>
                 <br />
-                where depth and delivery
-                <br />
-                aren&apos;t a tradeoff.
-              </h2>
+                <span className="animate-word" style={{ transitionDelay: '147ms' }}>aren&apos;t</span>
+                <span className="animate-space"> </span>
+                <span className="animate-word" style={{ transitionDelay: '430ms' }}>a tradeoff.</span>
+              </h1>
               <div className="hero-cta-row">
                 <a href="#work" className="hero-cta-filled">See My Work →</a>
-                <a href="mailto:neswanths@gmail.com" className="hero-cta-ghost">Hire Me</a>
+                <a href="mailto:neswanths@gmail.com" className="hero-cta-ghost">Book a Call</a>
               </div>
             </div>
           </div>
@@ -890,34 +969,35 @@ export default function Portfolio() {
                 )}
               </motion.div>
             </div>
+          </div> {/* End of hero-right-col */}
 
-            <div className="hero-controls">
-              <div className="hero-mode-btn-container">
-                <button
-                  className={`hero-mode-btn group ${heroMode === "chaos" ? "active" : ""}`}
-                  aria-label="Chaos mode"
-                  onClick={() => setHeroMode("chaos")}
-                >
-                  <Network size={20} />
-                  <span className="hero-tooltip">chaos mode</span>
-                </button>
-                <button
-                  className={`hero-mode-btn hero-mobile-hide group ${heroMode === "cleaned" ? "active" : ""}`}
-                  aria-label="Cleaned-up mode"
-                  onClick={() => setHeroMode("cleaned")}
-                >
-                  <Grid3x3 size={20} />
-                  <span className="hero-tooltip">cleaned-up mode</span>
-                </button>
-                <button
-                  className={`hero-mode-btn group ${heroMode === "minimal" ? "active" : ""}`}
-                  aria-label="Minimal mode"
-                  onClick={() => setHeroMode("minimal")}
-                >
-                  <Minus size={20} />
-                  <span className="hero-tooltip">minimal mode</span>
-                </button>
-              </div>
+          {/* Moved hero-controls here so it spans the full section width for centering */}
+          <div className="hero-controls">
+            <div className="hero-mode-btn-container">
+              <button
+                className={`hero-mode-btn group ${heroMode === "chaos" ? "active" : ""}`}
+                aria-label="Chaos mode"
+                onClick={() => setHeroMode("chaos")}
+              >
+                <Network size={20} />
+                <span className="hero-tooltip">chaos mode</span>
+              </button>
+              <button
+                className={`hero-mode-btn hero-mobile-hide group ${heroMode === "cleaned" ? "active" : ""}`}
+                aria-label="Cleaned-up mode"
+                onClick={() => setHeroMode("cleaned")}
+              >
+                <Grid3x3 size={20} />
+                <span className="hero-tooltip">cleaned-up mode</span>
+              </button>
+              <button
+                className={`hero-mode-btn group ${heroMode === "minimal" ? "active" : ""}`}
+                aria-label="Minimal mode"
+                onClick={() => setHeroMode("minimal")}
+              >
+                <Minus size={20} />
+                <span className="hero-tooltip">minimal mode</span>
+              </button>
             </div>
           </div>
 
@@ -980,8 +1060,11 @@ export default function Portfolio() {
                 I&apos;m currently available for freelance work and exciting opportunities. Let&apos;s bring your ideas to life!
               </p>
               <div className="lets-connect-actions">
-                <a href="mailto:neswanths@gmail.com" className="btn-primary">
-                  <Mail size={16} /> Send Message
+                <a href="https://wa.me/919392280525" target="_blank" rel="noreferrer" className="btn-primary">
+                  <WhatsappIcon size={16} /> Quick chat
+                </a>
+                <a href="mailto:neswanths@gmail.com" className="btn-secondary">
+                  <Mail size={16} /> Email Me
                 </a>
                 <a href={resumeUrl} target="_blank" rel="noreferrer" className="btn-secondary">
                   <Download size={16} /> Resume
@@ -1005,58 +1088,27 @@ export default function Portfolio() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="portfolio-footer">
-        <div className="footer-main">
-          <div className="footer-col footer-brand">
-            <span className="footer-name">Neswanth</span>
-            <p className="footer-tagline">
-              Applied AI Engineer focused on building reliable, scalable applications.
-            </p>
-            <div className="footer-social-icons">
-              <a href="https://github.com/neswanths" target="_blank" rel="noreferrer" aria-label="GitHub"><GithubIcon size={18} /></a>
-              <a href="https://linkedin.com/in/neswanth" target="_blank" rel="noreferrer" aria-label="LinkedIn"><LinkedinIcon size={18} /></a>
-              <a href="https://instagram.com/neswanths" target="_blank" rel="noreferrer" aria-label="Instagram"><InstagramIcon size={18} /></a>
-            </div>
-          </div>
-
-          <div className="footer-col">
-            <h4>Explore</h4>
-            <ul>
-              <li><a href="#top">Home</a></li>
-              <li><a href="#work">Projects</a></li>
-              <li><a href="#tech-stack">Skills</a></li>
-              <li><a href="#contact">Blog</a></li>
-            </ul>
-          </div>
-
-          <div className="footer-col">
-            <h4>Discover More</h4>
-            <ul>
-              <li><a href="#about">Experience</a></li>
-              <li><a href="#contact">Contact</a></li>
-              <li><a href="#">Terms &amp; Conditions</a></li>
-              <li><a href="#">Privacy Policy</a></li>
-            </ul>
-          </div>
-
-          <div className="footer-col">
-            <h4>Let&apos;s Build</h4>
-            <a href={resumeUrl} target="_blank" rel="noreferrer" className="footer-resume-link">
-              Download Resume
-            </a>
-            <a href="mailto:neswanths@gmail.com" className="footer-icon-btn" aria-label="Email">
-              <Mail size={18} />
-            </a>
-          </div>
+      <footer className="portfolio-footer flex w-full items-center justify-between px-6 py-8 md:px-12 md:py-6 max-h-[80px]">
+        <div className="text-sm font-medium text-[var(--ink-muted)] flex-1 text-left">
+          © 2026 Neswanth
         </div>
-
-        <div className="footer-bottom">
-          <span className="footer-copyright">
-            © 2026 Neswanth. All rights reserved. &nbsp;·&nbsp;
-            <a href="mailto:neswanths@gmail.com"><Mail size={12} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '4px' }} />neswanths@gmail.com</a>
-          </span>
-          <span className="footer-collab">Always open to collaborate</span>
+        <div className="text-sm font-medium text-[var(--ink-muted)] flex-1 text-center hidden md:block">
+          Always open to collaborate.
+        </div>
+        
+        <div className="flex items-center justify-end gap-5 flex-1">
+          <a href="https://github.com/neswanths" target="_blank" rel="noreferrer" aria-label="GitHub" className="text-[var(--ink-muted)] hover:text-[var(--ink)] transition-colors">
+            <GithubIcon size={18} />
+          </a>
+          <a href="https://linkedin.com/in/neswanth" target="_blank" rel="noreferrer" aria-label="LinkedIn" className="text-[var(--ink-muted)] hover:text-[var(--ink)] transition-colors">
+            <LinkedinIcon size={18} />
+          </a>
+          <a href="https://instagram.com/neswanths" target="_blank" rel="noreferrer" aria-label="Instagram" className="text-[var(--ink-muted)] hover:text-[var(--ink)] transition-colors">
+            <InstagramIcon size={18} />
+          </a>
+          <a href="mailto:neswanths@gmail.com" aria-label="Email" className="text-[var(--ink-muted)] hover:text-[var(--ink)] transition-colors">
+            <Mail size={18} />
+          </a>
         </div>
       </footer>
     </>
