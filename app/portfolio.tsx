@@ -198,6 +198,7 @@ function TechBadge({ tech }: { tech: typeof TECH_STACK[0] }) {
 
   return (
     <div className="
+      tech-badge-item
       group flex items-center gap-1.5 md:gap-2 px-2.5 py-[5px] md:py-[6px] 
       rounded-md border border-dashed border-black/15 bg-white/30
       shadow-[inset_0_2px_4px_rgba(0,0,0,0.04)] hover:shadow-[inset_0_2px_6px_rgba(0,0,0,0.08)]
@@ -256,6 +257,7 @@ function TechStackSection() {
             <button
               onClick={() => setIsExpanded(true)}
               className="
+                tech-stack-more-btn
                 flex items-center gap-1 px-3 py-[5px] md:py-[6px] rounded-md
                 border border-dashed border-[var(--accent-warm)]/30 bg-[var(--bg)]
                 text-[12.5px] md:text-sm font-medium font-[family-name:var(--font-body)] text-[var(--accent-warm)]
@@ -341,17 +343,17 @@ function ServicesSection() {
               type="button"
               key={service.index}
               onClick={() => setActiveCard(service)}
-              className="flex h-full min-h-[340px] cursor-pointer flex-col rounded-2xl border border-white/10 bg-[var(--bg-dark)] p-8 text-left shadow-[0_28px_80px_rgba(15,14,12,0.18)] outline-none transition-all duration-300 ease-out group-hover:opacity-40 hover:!opacity-100 hover:-translate-y-2 hover:border-[rgba(196,145,90,0.35)] hover:shadow-[0_0_30px_rgba(196,145,90,0.15),0_34px_90px_rgba(15,14,12,0.24)] focus-visible:!opacity-100 focus-visible:-translate-y-2 focus-visible:ring-2 focus-visible:ring-[var(--accent-warm)] focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--bg)] md:p-10"
+              className="service-card-dark flex h-full min-h-[340px] cursor-pointer flex-col rounded-2xl border border-white/10 bg-[var(--bg-dark)] p-8 text-left shadow-[0_28px_80px_rgba(15,14,12,0.18)] outline-none transition-all duration-300 ease-out group-hover:opacity-40 hover:!opacity-100 hover:-translate-y-2 hover:border-[rgba(196,145,90,0.35)] hover:shadow-[0_0_30px_rgba(196,145,90,0.15),0_34px_90px_rgba(15,14,12,0.24)] focus-visible:!opacity-100 focus-visible:-translate-y-2 focus-visible:ring-2 focus-visible:ring-[var(--accent-warm)] focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--bg)] md:p-10"
               aria-label={`Open ${service.title}`}
             >
               <span className="font-mono text-sm font-medium tracking-[0.16em] text-[var(--accent-warm)]">
                 {service.index}
               </span>
               <div className="mt-12">
-                <h3 className="mb-4 font-[var(--font-display)] text-3xl font-normal italic leading-tight text-[#f7f4ef]">
+                <h3 className="mb-4 font-[var(--font-display)] text-3xl font-normal italic leading-tight service-card-title">
                   {service.title}
                 </h3>
-                <p className="font-[var(--font-body)] text-[0.96rem] leading-[1.65] text-white/70">
+                <p className="font-[var(--font-body)] text-[0.96rem] leading-[1.65] service-card-body">
                   {service.body}
                 </p>
               </div>
@@ -377,7 +379,7 @@ function ServicesSection() {
               role="dialog"
               aria-modal="true"
               aria-labelledby="service-modal-title"
-              className="fixed inset-0 z-50 m-auto flex h-fit max-h-[80vh] w-[calc(100vw_-_2rem)] max-w-2xl flex-col overflow-hidden rounded-2xl border border-white/10 bg-[var(--bg-dark)] p-8 text-left shadow-[0_0_70px_rgba(196,145,90,0.18),0_40px_120px_rgba(0,0,0,0.45)] md:p-10"
+              className="service-card-dark fixed inset-0 z-50 m-auto flex h-fit max-h-[80vh] w-[calc(100vw_-_2rem)] max-w-2xl flex-col overflow-hidden rounded-2xl border border-white/10 bg-[var(--bg-dark)] p-8 text-left shadow-[0_0_70px_rgba(196,145,90,0.18),0_40px_120px_rgba(0,0,0,0.45)] md:p-10"
               initial={{ opacity: 0, y: 24, scale: 0.96 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 18, scale: 0.97 }}
@@ -396,10 +398,10 @@ function ServicesSection() {
                 {activeCard.index}
               </span>
               <div className="mt-10 pr-8">
-                <h3 id="service-modal-title" className="font-[var(--font-display)] text-4xl font-normal italic leading-none text-[#f7f4ef] md:text-5xl">
+                <h3 id="service-modal-title" className="font-[var(--font-display)] text-4xl font-normal italic leading-none service-card-title md:text-5xl">
                   {activeCard.title}
                 </h3>
-                <p className="mt-8 max-w-xl font-[var(--font-body)] text-lg leading-[1.65] text-white/70">
+                <p className="mt-8 max-w-xl font-[var(--font-body)] text-lg leading-[1.65] service-card-body">
                   {activeCard.body}
                 </p>
               </div>
@@ -607,7 +609,7 @@ function ResearchCard({
             {entry.tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-md border border-black/8 bg-[#f5f3ef] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-[var(--ink-muted)]"
+                className="research-tag rounded-md border border-black/8 bg-[#f5f3ef] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-[var(--ink-muted)]"
               >
                 {tag}
               </span>
@@ -683,9 +685,52 @@ function ResearchSection() {
   );
 }
 
+function SunIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="5" />
+      <line x1="12" y1="1" x2="12" y2="3" />
+      <line x1="12" y1="21" x2="12" y2="23" />
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+      <line x1="1" y1="12" x2="3" y2="12" />
+      <line x1="21" y1="12" x2="23" y2="12" />
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+    </svg>
+  );
+}
+
+function MoonIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>
+  );
+}
+
 export default function Portfolio() {
   const [pastHero, setPastHero] = useState(false);
   const [heroMode, setHeroMode] = useState<"chaos" | "cleaned" | "minimal">("minimal");
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+
+  // Initialize theme from DOM (which was set by the inline <head> script)
+  useEffect(() => {
+    const current = document.documentElement.getAttribute("data-theme");
+    if (current === "dark") setTheme("dark");
+  }, []);
+
+  const toggleTheme = () => {
+    const next = theme === "light" ? "dark" : "light";
+    setTheme(next);
+    if (next === "dark") {
+      document.documentElement.setAttribute("data-theme", "dark");
+    } else {
+      document.documentElement.removeAttribute("data-theme");
+    }
+    try { localStorage.setItem("theme", next); } catch(e) {}
+  };
+
   useEffect(() => {
     const onScroll = () => setPastHero(window.scrollY > window.innerHeight * 0.86);
     onScroll();
@@ -719,6 +764,14 @@ export default function Portfolio() {
           <a href="#services">Services</a>
           <a href="#about">About</a>
           <a href="#contact">Contact</a>
+          <button
+            className="theme-toggle"
+            onClick={toggleTheme}
+            aria-label={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
+            type="button"
+          >
+            {theme === "light" ? <MoonIcon /> : <SunIcon />}
+          </button>
         </div>
       </nav>
 
@@ -782,61 +835,89 @@ export default function Portfolio() {
             </div>
           </div>
 
-          <div className="hero-center">
-            <motion.div
-              className="hero-copy"
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: [0.34, 1.56, 0.64, 1] }}
-            >
-              <h1 className="hero-title">Neswanth</h1>
-              <p className="hero-role">AI RESEARCHER &amp; BUILDER</p>
-              <div className="avatar-orbit" aria-label="Neswanth avatar">
-                <span className="avatar-ring ring-one" />
-                <span className="avatar-ring ring-two" />
-                <Image
-                  src="/objects/avatar.png"
-                  alt="Neswanth cartoon avatar"
-                  width={190}
-                  height={190}
-                  priority
-                  className="avatar-image"
-                  sizes="190px"
-                />
+          {/* ── Left Column: headline + CTAs (minimal mode only) ── */}
+          <div className="hero-left-col">
+            <div className="hero-left-inner">
+              <h2 className="hero-headline">
+                AI <span className="hero-underline">freelance</span>
+                <br />
+                and <span className="hero-underline">research</span>
+                <br />
+                where depth and delivery
+                <br />
+                aren&apos;t a tradeoff.
+              </h2>
+              <div className="hero-cta-row">
+                <a href="#work" className="hero-cta-filled">See My Work →</a>
+                <a href="mailto:neswanths@gmail.com" className="hero-cta-ghost">Hire Me</a>
               </div>
-              <p className="hero-tagline">
-                <span>Chasing things that matter. </span>
-                <span>Building things that last.</span>
-              </p>
-            </motion.div>
+            </div>
           </div>
 
-          <div className="hero-controls">
-            <div className="hero-mode-btn-container">
-              <button
-                className={`hero-mode-btn ${heroMode === "chaos" ? "active" : ""}`}
-                aria-label="Chaos mode"
-                onClick={() => setHeroMode("chaos")}
+          {/* ── Right Column: existing hero content ── */}
+          <div className="hero-right-col">
+            <div className="hero-center">
+              <motion.div
+                className="hero-copy"
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, ease: [0.34, 1.56, 0.64, 1] }}
               >
-                <Network size={20} />
-              </button>
-              <button
-                className={`hero-mode-btn hero-mobile-hide ${heroMode === "cleaned" ? "active" : ""}`}
-                aria-label="Cleaned-up mode"
-                onClick={() => setHeroMode("cleaned")}
-              >
-                <Grid3x3 size={20} />
-              </button>
-              <button
-                className={`hero-mode-btn ${heroMode === "minimal" ? "active" : ""}`}
-                aria-label="Minimal mode"
-                onClick={() => setHeroMode("minimal")}
-              >
-                <Minus size={20} />
-              </button>
+                <h1 className="hero-title">Neswanth</h1>
+                <p className="hero-role">AI RESEARCHER &amp; BUILDER</p>
+                <div className="avatar-orbit" aria-label="Neswanth avatar">
+                  <span className="avatar-ring ring-one" />
+                  <span className="avatar-ring ring-two" />
+                  <Image
+                    src="/objects/avatar.png"
+                    alt="Neswanth cartoon avatar"
+                    width={190}
+                    height={190}
+                    priority
+                    className="avatar-image"
+                    sizes="190px"
+                  />
+                </div>
+                {heroMode === "minimal" ? (
+                  <p className="hero-tagline-minimal">
+                    — Ships at 2AM. Lifts at 6PM.
+                  </p>
+                ) : (
+                  <p className="hero-tagline">
+                    <span>Chasing things that matter. </span>
+                    <span>Building things that last.</span>
+                  </p>
+                )}
+              </motion.div>
             </div>
-            <div className="hero-mode-label">
-              {heroMode === "chaos" ? "chaos mode" : heroMode === "cleaned" ? "cleaned-up mode" : "minimal mode"}
+
+            <div className="hero-controls">
+              <div className="hero-mode-btn-container">
+                <button
+                  className={`hero-mode-btn group ${heroMode === "chaos" ? "active" : ""}`}
+                  aria-label="Chaos mode"
+                  onClick={() => setHeroMode("chaos")}
+                >
+                  <Network size={20} />
+                  <span className="hero-tooltip">chaos mode</span>
+                </button>
+                <button
+                  className={`hero-mode-btn hero-mobile-hide group ${heroMode === "cleaned" ? "active" : ""}`}
+                  aria-label="Cleaned-up mode"
+                  onClick={() => setHeroMode("cleaned")}
+                >
+                  <Grid3x3 size={20} />
+                  <span className="hero-tooltip">cleaned-up mode</span>
+                </button>
+                <button
+                  className={`hero-mode-btn group ${heroMode === "minimal" ? "active" : ""}`}
+                  aria-label="Minimal mode"
+                  onClick={() => setHeroMode("minimal")}
+                >
+                  <Minus size={20} />
+                  <span className="hero-tooltip">minimal mode</span>
+                </button>
+              </div>
             </div>
           </div>
 
