@@ -30,21 +30,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap" rel="stylesheet" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var saved = localStorage.getItem('theme');
-                  var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-                  if (theme === 'dark') {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                  }
-                } catch(e) {}
-              })();
-            `,
-          }}
-        />
+        {/* Theme always defaults to light — no localStorage or system preference used */}
       </head>
       <body className={`${geist.variable} ${playfair.variable}`}>{children}</body>
     </html>

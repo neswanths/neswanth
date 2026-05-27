@@ -295,20 +295,23 @@ const services = [
   {
     index: "01",
     title: "AI-Powered Features",
-    body: "Your product already has users.\nI make it intelligent enough to keep them.",
-    expandedBody: "Most products treat AI as a feature. It should be the layer that makes every other feature work better — surfacing what users actually need, handling work in the background, getting smarter the more it's used.\n\nI've added AI layers to existing products that reduced manual intervention by replacing repetitive judgment calls with systems that learn the pattern once and run it forever."
+    body: "Your product already has users. I make it intelligent enough to keep them.",
+    subline: "Think: search that understands intent, not keywords.",
+    expandedBody: "Most products add AI as a feature. The better move is making it the layer that makes everything else work better — surfacing what users actually need before they ask, handling repetitive judgment calls in the background, getting more accurate the longer it runs.\n\nIn practice: a RAG pipeline that lets your users query your own product's data in plain English. A recommendation layer that learns from behavior instead of guessing. An AI assistant that sits inside your existing UI and handles the questions your support team answers fifty times a day.\n\nThe goal isn't an AI feature. It's a product that feels like it understands the person using it."
   },
   {
     index: "02",
     title: "Full-Stack Web Apps",
-    body: "You have an idea.\nI build the version that survives production.",
-    expandedBody: "Most freelancers build until it works locally, then hand it off. I build for what happens at 3AM when something breaks and you don't have an engineer on call.\n\nFull stack — design, backend, frontend, auth, database, deployment. One person accountable for the whole thing.\n\nVigil and Blinky are both live. You can use them right now."
+    body: "You have an idea. I build the version that survives production.",
+    subline: "Think: auth, deployment, edge cases — handled before they're your problem.",
+    expandedBody: "Most freelancers build until it works locally, then hand it off. I build for what happens at 3AM when something breaks and you don't have an engineer on call.\n\nIn practice: full auth flows, database design that doesn't become a problem at scale, deployment pipelines that don't need babysitting. Vigil and Blinky are both live — you can use them right now.\n\nDesign, backend, frontend, auth, database, deployment. One person accountable for the whole thing."
   },
   {
     index: "03",
     title: "Agentic AI Systems",
-    body: "Your team makes the same decisions every day.\nI build systems that make them — and act on them.",
-    expandedBody: "Research, outreach, monitoring, follow-up — these aren't creative tasks. They're patterns. And patterns can be delegated to agents that don't sleep, don't forget, and don't need to be told twice.\n\nI've built multi-agent systems that replaced entire manual workflows — five specialized agents coordinating in real time, each with a defined role, none waiting on a human in the middle."
+    body: "Your team makes the same decisions every day. I build systems that make them — and act on them.",
+    subline: "Think: lead research that runs overnight and lands in your inbox ready to act on.",
+    expandedBody: "Research, outreach, monitoring, follow-up — these aren't creative tasks. They're patterns. And patterns can be delegated to systems that don't sleep, don't forget, and don't need to be told twice.\n\nIn practice: a competitor monitoring agent that surfaces signals before your team would have noticed. An outreach pipeline that researches, personalizes, and follows up without a human in the middle. A market intelligence system where five specialized agents coordinate in real time and hand you conclusions, not raw data.\n\nNo human bottleneck. Just decisions, made and acted on."
   },
 ] as const;
 
@@ -357,15 +360,18 @@ function ServicesSection() {
               className="service-card-dark flex h-full min-h-[340px] cursor-pointer flex-col rounded-2xl border border-white/10 bg-[var(--bg-dark)] p-8 text-left shadow-[0_28px_80px_rgba(15,14,12,0.18)] outline-none transition-all duration-300 ease-out group-hover:opacity-40 hover:!opacity-100 hover:-translate-y-2 hover:border-[rgba(196,145,90,0.35)] hover:shadow-[0_0_30px_rgba(196,145,90,0.15),0_34px_90px_rgba(15,14,12,0.24)] focus-visible:!opacity-100 focus-visible:-translate-y-2 focus-visible:ring-2 focus-visible:ring-[var(--accent-warm)] focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--bg)] md:p-10"
               aria-label={`Open ${service.title}`}
             >
-              <span className="font-mono text-sm font-medium tracking-[0.16em] text-[var(--ink-muted)] opacity-50">
+              <span className="font-mono text-sm font-medium tracking-[0.16em] text-[#C45C26]">
                 {service.index}
               </span>
               <div className="mt-12 flex-1">
                 <h3 className="mb-4 font-[var(--font-display)] text-3xl font-normal italic leading-tight service-card-title">
                   {service.title}
                 </h3>
-                <p className="font-[var(--font-body)] text-[0.96rem] leading-[1.65] service-card-body whitespace-pre-wrap">
+                <p className="font-[var(--font-body)] text-[0.96rem] leading-[1.65] service-card-body">
                   {service.body}
+                </p>
+                <p className="mt-3 font-[var(--font-body)] text-[0.8rem] italic leading-relaxed service-card-body opacity-60">
+                  {service.subline}
                 </p>
               </div>
               <div className="mt-6 flex justify-start">
@@ -395,7 +401,7 @@ function ServicesSection() {
               role="dialog"
               aria-modal="true"
               aria-labelledby="service-modal-title"
-              className="service-card-dark fixed inset-0 z-50 m-auto flex h-fit max-h-[80vh] w-[calc(100vw_-_2rem)] max-w-2xl flex-col overflow-hidden rounded-2xl border border-white/10 bg-[var(--bg-dark)] p-8 text-left shadow-[0_0_70px_rgba(196,145,90,0.18),0_40px_120px_rgba(0,0,0,0.45)] md:p-10"
+              className="service-card-dark fixed inset-0 z-50 m-auto flex h-fit max-h-[80vh] w-[calc(100vw_-_2rem)] max-w-2xl flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#1e1c1a] p-8 text-left shadow-[0_0_70px_rgba(196,145,90,0.18),0_40px_120px_rgba(0,0,0,0.45)] md:p-10"
               initial={{ opacity: 0, y: 24, scale: 0.96 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 18, scale: 0.97 }}
@@ -418,12 +424,12 @@ function ServicesSection() {
                   {activeCard.expandedBody}
                 </p>
               </div>
-              <div className="mt-auto pt-6 border-t border-white/10">
+              <div className="mt-auto pt-6 border-t border-white/10 flex justify-center">
                 <a 
                   href="https://wa.me/919392280525" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--accent-warm)] px-6 py-4 font-semibold text-white transition-transform duration-200 hover:scale-[1.02]"
+                  className="inline-flex items-center gap-2 rounded-xl bg-[var(--accent-warm)] px-6 py-3 font-semibold text-white transition-transform duration-200 hover:scale-[1.02]"
                 >
                   Book a Call <ArrowRight size={18} />
                 </a>
@@ -767,10 +773,11 @@ export default function Portfolio() {
   const [heroMode, setHeroMode] = useState<"chaos" | "cleaned" | "minimal">("minimal");
   const [theme, setTheme] = useState<"light" | "dark">("light");
 
-  // Initialize theme from DOM (which was set by the inline <head> script)
+  // Always default to light theme on page load — remove any saved dark preference
   useEffect(() => {
-    const current = document.documentElement.getAttribute("data-theme");
-    if (current === "dark") setTheme("dark");
+    document.documentElement.removeAttribute("data-theme");
+    try { localStorage.removeItem("theme"); } catch(e) {}
+    setTheme("light");
   }, []);
 
   // Word animation trigger
@@ -977,17 +984,33 @@ export default function Portfolio() {
               <button
                 className={`hero-mode-btn group ${heroMode === "chaos" ? "active" : ""}`}
                 aria-label="Chaos mode"
-                onClick={() => setHeroMode("chaos")}
+                onClick={() => {
+                  setHeroMode("chaos");
+                  // Chaos mode always shows in light theme
+                  if (theme === "dark") {
+                    setTheme("light");
+                    document.documentElement.removeAttribute("data-theme");
+                    try { localStorage.removeItem("theme"); } catch(e) {}
+                  }
+                }}
               >
-                <Network size={20} />
+                <Network size={16} />
                 <span className="hero-tooltip">chaos mode</span>
               </button>
               <button
                 className={`hero-mode-btn hero-mobile-hide group ${heroMode === "cleaned" ? "active" : ""}`}
                 aria-label="Cleaned-up mode"
-                onClick={() => setHeroMode("cleaned")}
+                onClick={() => {
+                  setHeroMode("cleaned");
+                  // Cleaned mode always shows in light theme
+                  if (theme === "dark") {
+                    setTheme("light");
+                    document.documentElement.removeAttribute("data-theme");
+                    try { localStorage.removeItem("theme"); } catch(e) {}
+                  }
+                }}
               >
-                <Grid3x3 size={20} />
+                <Grid3x3 size={16} />
                 <span className="hero-tooltip">cleaned-up mode</span>
               </button>
               <button
@@ -995,7 +1018,7 @@ export default function Portfolio() {
                 aria-label="Minimal mode"
                 onClick={() => setHeroMode("minimal")}
               >
-                <Minus size={20} />
+                <Minus size={16} />
                 <span className="hero-tooltip">minimal mode</span>
               </button>
             </div>
