@@ -1946,6 +1946,7 @@ main {
 
 /* Footer */
 .portfolio-footer {
+  position: relative;
   background: var(--bg);
   border-top: 1px solid rgba(28, 26, 23, 0.1);
   color: var(--ink);
@@ -2694,3 +2695,84 @@ section,
   width: 18px;
   height: 18px;
 }
+
+/* ══════════════════════════════════════════════
+   BACK TO TOP BUTTON
+   ══════════════════════════════════════════════ */
+.back-to-top {
+  position: absolute;
+  bottom: 96px;
+  right: clamp(24px, 4vw, 48px);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--cream-soft);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 99;
+  box-shadow: 0 4px 16px rgba(28, 26, 23, 0.05);
+  transition: background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.back-to-top:hover {
+  background: var(--accent-warm);
+  color: #ffffff;
+  border-color: var(--accent-warm);
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(196, 92, 38, 0.18);
+}
+
+.back-to-top svg {
+  transition: transform 0.2s ease;
+}
+
+.back-to-top:hover svg {
+  transform: translateY(-2px);
+}
+
+.back-to-top .tooltip {
+  position: absolute;
+  right: 56px;
+  top: 50%;
+  transform: translateY(-50%) translateX(6px);
+  background: var(--ink);
+  color: var(--bg);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border);
+}
+
+/* Tooltip caret */
+.back-to-top .tooltip::after {
+  content: "";
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent transparent var(--ink);
+}
+
+.back-to-top:hover .tooltip {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+

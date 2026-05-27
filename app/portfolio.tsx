@@ -14,7 +14,8 @@ import {
   Terminal,
   Mail,
   Download,
-  X
+  X,
+  ArrowUp
 } from "lucide-react";
 
 function GithubIcon({ size = 20 }: { size?: number }) {
@@ -768,6 +769,38 @@ function MoonIcon() {
   );
 }
 
+function BackToTop() {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setIsVisible(window.scrollY > 400);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <AnimatePresence>
+      {isVisible && (
+        <motion.button
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 10 }}
+          transition={{ duration: 0.2 }}
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="back-to-top"
+          aria-label="Back to top"
+        >
+          <ArrowUp size={20} />
+          <span className="tooltip">back to top</span>
+        </motion.button>
+      )}
+    </AnimatePresence>
+  );
+}
+
 export default function Portfolio() {
   const [pastHero, setPastHero] = useState(false);
   const [heroMode, setHeroMode] = useState<"chaos" | "cleaned" | "minimal">("minimal");
@@ -1133,6 +1166,8 @@ export default function Portfolio() {
             <Mail size={18} />
           </a>
         </div>
+
+        <BackToTop />
       </footer>
     </>
   );
